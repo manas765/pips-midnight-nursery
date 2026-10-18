@@ -5,7 +5,7 @@ A dreamy, storybook-style website for curious souls, soft thoughts and the magic
 <!-- Add a screenshot: save it as screenshot.png in the repo root, then uncomment the line below -->
 <!-- ![Pip's Midnight Nursery](./screenshot.png) -->
 
-**Live site:** [https://pips-midnight-nursery-five.vercel.app/](https://pips-midnight-nursery-five.vercel.app/) <!-- replace with your real Vercel URL -->
+**Live site:** [https://pips-midnight-nursery-vibr.vercel.app/](https://pips-midnight-nursery-vibr.vercel.app/) <!-- replace with your real Vercel URL -->
 
 ## Features
 
