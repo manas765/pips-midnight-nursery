@@ -1,4 +1,6 @@
-import { useEffect, useState, type CSSProperties, type PointerEvent } from "react";
+import { useEffect, useState, useSyncExternalStore, type CSSProperties, type PointerEvent } from "react";
+import { isMuted, setMuted, subscribe } from "./audio";
+import { useClickChimes } from "./useClickChimes";
 
 type Project = {
   number: string;
@@ -266,7 +268,8 @@ function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [secretOpen, setSecretOpen] = useState(false);
   const [dawnMode, setDawnMode] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
+  const muted = useSyncExternalStore(subscribe, isMuted);
+  useClickChimes();
   const [guestbookOpen, setGuestbookOpen] = useState(false);
   const [guestName, setGuestName] = useState("");
   const [guestMessage, setGuestMessage] = useState("");
@@ -959,13 +962,13 @@ function App() {
         </button>
 
         <button
-          className={`utility-button ${soundOn ? "sound-on" : ""}`}
-          onClick={() => setSoundOn(!soundOn)}
-          aria-label="Toggle sound preference"
-          title="This is a visual preference toggle; no audio is playing yet."
+          className={`utility-button ${!muted ? "sound-on" : ""}`}
+          onClick={() => setMuted(!muted)}
+          aria-label={muted ? "Unmute sound" : "Mute sound"}
+          aria-pressed={!muted}
         >
-          <span>{soundOn ? "♫" : "♪"}</span>
-          <small>{soundOn ? "Sound on" : "Sound off"}</small>
+          <span>{muted ? "♪" : "♫"}</span>
+          <small>{muted ? "Sound off" : "Sound on"}</small>
         </button>
       </div>
 
