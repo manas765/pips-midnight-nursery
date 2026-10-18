@@ -1979,3 +1979,25 @@ h3 {
 .project-card:hover .project-art {
   transform: translateY(-5px) scale(1.07) rotate(-3deg);
 }
+/* SVG sizing for story doodles, route map moon and About art */
+.story-doodle {
+  width: 54px;
+  height: 54px;
+}
+
+.story-clouds {
+  width: 130px;
+  height: 58px;
+  bottom: -4px;
+}
+
+.map-moon {
+  width: 58px;
+  height: 58px;
+  font-size: 0;
+  transform: none;
+}
+
+.about-art-circle svg {
+  display: block;
+}
