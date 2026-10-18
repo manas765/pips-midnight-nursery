@@ -227,36 +227,55 @@ function App() {
     }
   }
 
-  function startRoute() {
-    setRouteStarted(true);
-    setCompletedStops([]);
-    setSelectedDestination(0);
-    scrollToSection("route");
-  }
+function startRoute() {
+  setCompletedStops([]);
+  setSelectedDestination(0);
+  setRouteStarted(true);
 
-  function visitDestination(index: number) {
-    setSelectedDestination(index);
-    setRouteStarted(true);
-    playTone(440);
-  }
+  window.setTimeout(() => {
+    routeRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, 50);
+}
 
-  function completeCurrentStop() {
-    setCompletedStops((previous) =>
-      previous.includes(selectedDestination)
-        ? previous
-        : [...previous, selectedDestination]
-    );
+function visitDestination(index: number) {
+  // Only allow the current stop or an already completed stop.
+  if (index > completedStops.length) return;
 
-    if (selectedDestination < destinations.length - 1) {
-      setSelectedDestination((previous) => previous + 1);
-    }
-  }
+  setSelectedDestination(index);
+  setRouteStarted(true);
+}
 
-  function resetRoute() {
-    setCompletedStops([]);
-    setSelectedDestination(0);
-    setRouteStarted(false);
+function completeCurrentStop() {
+  if (!routeStarted) return;
+
+  // The whole journey is already complete.
+  if (completedStops.length >= destinations.length) return;
+
+  const currentStop = completedStops.length;
+
+  setCompletedStops((previous) =>
+    previous.includes(currentStop)
+      ? previous
+      : [...previous, currentStop]
+  );
+
+  // Advance to the next delivery stop.
+  if (currentStop < destinations.length - 1) {
+    setSelectedDestination(currentStop + 1);
+  } else {
+    // Keep Pip at the final destination.
+    setSelectedDestination(currentStop);
   }
+}
+
+function resetRoute() {
+  setCompletedStops([]);
+  setSelectedDestination(0);
+  setRouteStarted(false);
+}
 
   useEffect(() => {
     const elements = document.querySelectorAll<HTMLElement>(
