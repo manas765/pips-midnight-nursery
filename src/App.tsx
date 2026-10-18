@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, type CSSProperties, type PointerEvent } from "react";
 
 type Project = {
   number: string;
@@ -188,6 +188,37 @@ function ProjectIcon({ number }: { number: string }) {
   );
 }
 
+function canTilt(event: PointerEvent<HTMLElement>) {
+  return (
+    event.pointerType === "mouse" &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+function handleTilt(event: PointerEvent<HTMLElement>, maxDeg = 10) {
+  if (!canTilt(event)) return;
+  const element = event.currentTarget;
+  const rect = element.getBoundingClientRect();
+  const px = (event.clientX - rect.left) / rect.width;
+  const py = (event.clientY - rect.top) / rect.height;
+  const mx = Math.max(-1, Math.min(1, (px - 0.5) * 2));
+  const my = Math.max(-1, Math.min(1, (py - 0.5) * 2));
+
+  element.style.setProperty("--mx", mx.toFixed(3));
+  element.style.setProperty("--my", my.toFixed(3));
+  element.style.setProperty("--ry", `${(mx * maxDeg).toFixed(2)}deg`);
+  element.style.setProperty("--rx", `${(-my * maxDeg).toFixed(2)}deg`);
+  element.style.setProperty("--gx", `${(px * 100).toFixed(1)}%`);
+  element.style.setProperty("--gy", `${(py * 100).toFixed(1)}%`);
+}
+
+function resetTilt(event: PointerEvent<HTMLElement>) {
+  const element = event.currentTarget;
+  ["--mx", "--my", "--rx", "--ry", "--gx", "--gy"].forEach((name) =>
+    element.style.removeProperty(name)
+  );
+}
+
 function DoodleMoon() {
   return (
     <svg viewBox="0 0 64 64" width="100%" height="100%" aria-hidden="true">
@@ -337,6 +368,30 @@ function App() {
   const [guestMessage, setGuestMessage] = useState("");
   const [guestSubmitted, setGuestSubmitted] = useState(false);
 
+  useEffect(() => {
+    const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((element) => element.classList.add("is-visible"));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+    );
+
+    targets.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+
   function closeMobileMenu() {
     setMobileMenuOpen(false);
   }
@@ -460,7 +515,11 @@ function App() {
             </div>
           </div>
 
-          <div className="hero-art-area">
+          <div
+            className="hero-art-area"
+            onPointerMove={(event) => handleTilt(event, 9)}
+            onPointerLeave={resetTilt}
+          >
             <div className="hero-art-halo" />
             <div className="orbit orbit-one" />
             <div className="orbit orbit-two" />
@@ -477,6 +536,7 @@ function App() {
               <div style={{ width: "100%", height: "100%", padding: "6%" }}>
                 <HeroMoon />
               </div>
+              <div className="card-glare" aria-hidden="true" />
             </div>
 
             <div className="floating-note note-lantern">
@@ -534,12 +594,12 @@ function App() {
 
         {/* STORY */}
         <section className="story-section section-padding" id="story">
-          <div className="section-label">
+          <div className="section-label" data-reveal>
             <span>01 / A SMALL BEGINNING</span>
             <span>EVERY LITTLE WORLD STARTS SOMEWHERE</span>
           </div>
 
-          <div className="story-heading-grid">
+          <div className="story-heading-grid" data-reveal>
             <h2>
               Every dream
               <br />
@@ -552,7 +612,11 @@ function App() {
           </div>
 
           <div className="story-timeline">
-            <article className="story-stop">
+            <article
+              className="story-stop"
+              data-reveal
+              style={{ "--reveal-delay": "0ms" } as CSSProperties}
+            >
               <span className="timeline-marker">01</span>
               <div className="story-card story-card-one">
                 <span className="story-kicker">ONCE UPON A NIGHT</span>
@@ -568,7 +632,11 @@ function App() {
               </div>
             </article>
 
-            <article className="story-stop">
+            <article
+              className="story-stop"
+              data-reveal
+              style={{ "--reveal-delay": "140ms" } as CSSProperties}
+            >
               <span className="timeline-marker">02</span>
               <div className="story-card story-card-two">
                 <span className="story-kicker">A WORLD TAKES SHAPE</span>
@@ -584,7 +652,11 @@ function App() {
               </div>
             </article>
 
-            <article className="story-stop">
+            <article
+              className="story-stop"
+              data-reveal
+              style={{ "--reveal-delay": "280ms" } as CSSProperties}
+            >
               <span className="timeline-marker">03</span>
               <div className="story-card story-card-three">
                 <span className="story-kicker">AND NOW, YOU&apos;RE HERE</span>
@@ -601,7 +673,7 @@ function App() {
             </article>
           </div>
 
-          <p className="story-footnote">
+          <p className="story-footnote" data-reveal>
             <span className="tiny-moon">☾</span>
             The best stories are the ones we get to keep adding to.
           </p>
@@ -610,12 +682,12 @@ function App() {
         {/* LITTLE THINGS */}
         <section className="work-section section-padding" id="work">
           <div className="section-wrap">
-            <div className="section-label">
+            <div className="section-label" data-reveal>
               <span>02 / LITTLE THINGS</span>
               <span>SMALL WORLDS, ENDLESS POSSIBILITIES</span>
             </div>
 
-            <div className="work-heading-grid">
+            <div className="work-heading-grid" data-reveal>
               <h2>
                 A shelf full
                 <br />
@@ -628,11 +700,18 @@ function App() {
             </div>
 
             <div className="project-grid">
-              {projects.map((project) => (
+              {projects.map((project, index) => (
+                <div
+                  className="project-reveal"
+                  data-reveal
+                  key={project.number}
+                  style={{ "--reveal-delay": `${index * 120}ms` } as CSSProperties}
+                >
                 <button
                   className={`project-card project-card-${project.number.slice(-1)}`}
-                  key={project.number}
                   onClick={() => setSelectedProject(project)}
+                  onPointerMove={(event) => handleTilt(event, 8)}
+                  onPointerLeave={resetTilt}
                 >
                   <span className="project-card-top">
                     <span>NO. {project.number}</span>
@@ -691,10 +770,11 @@ function App() {
                     </span>
                   </span>
                 </button>
+                </div>
               ))}
             </div>
 
-            <p className="work-caption">
+            <p className="work-caption" data-reveal>
               <span>✦</span> Made for curious minds and wonderfully wandering hearts <span>✦</span>
             </p>
           </div>
@@ -703,13 +783,13 @@ function App() {
         {/* ROUTE MAP */}
         <section className="route-section section-padding" id="route">
           <div className="section-wrap">
-            <div className="section-label">
+            <div className="section-label" data-reveal>
               <span>03 / FIND YOUR WAY</span>
               <span>FOLLOW THE LITTLE LIGHTS</span>
             </div>
 
             <div className="route-layout">
-              <div className="route-copy">
+              <div className="route-copy" data-reveal>
                 <span className="route-label">
                   <span className="route-live-dot" />
                   YOUR OWN LITTLE ADVENTURE
@@ -750,7 +830,7 @@ function App() {
                 </button>
               </div>
 
-              <div className="route-map" aria-label="Illustrated map of a dreamy village">
+              <div className="route-map" data-reveal aria-label="Illustrated map of a dreamy village">
                 <div className="map-sky-glow" />
                 <span className="map-constellation constellation-a">· ✦ · ✧</span>
                 <span className="map-constellation constellation-b">✧ · ✦ ·</span>
@@ -822,7 +902,7 @@ function App() {
         {/* ABOUT PIP */}
         <section className="about-section" id="about">
           <div className="about-inner section-wrap">
-            <div className="about-art">
+            <div className="about-art" data-reveal>
               <div
                 className="about-art-circle"
                 style={{
@@ -839,7 +919,11 @@ function App() {
               <span className="about-art-label">A LITTLE LOVE LETTER TO WONDER</span>
             </div>
 
-            <div className="about-copy">
+            <div
+              className="about-copy"
+              data-reveal
+              style={{ "--reveal-delay": "150ms" } as CSSProperties}
+            >
               <div className="section-label">
                 <span>04 / A NOTE FROM PIP</span>
               </div>
@@ -878,7 +962,7 @@ function App() {
 
         {/* GUESTBOOK */}
         <section className="guestbook-section section-wrap" id="guestbook">
-          <div className="guestbook-card">
+          <div className="guestbook-card" data-reveal>
             <div className="guestbook-cloud cloud-left" />
             <div className="guestbook-cloud cloud-right" />
 

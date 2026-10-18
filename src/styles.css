@@ -2001,3 +2001,204 @@ h3 {
 .about-art-circle svg {
   display: block;
 }
+/* =====================================================
+   PIP'S MIDNIGHT NURSERY
+   3D + INTERACTIVE LAYER
+   Paste at the VERY BOTTOM of src/styles.css
+   ===================================================== */
+
+/* ---------- Hero: mouse-tilt card ---------- */
+.hero-art-card {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 180ms ease-out, box-shadow 350ms ease;
+  will-change: transform;
+}
+
+/* slow, soft return when the mouse leaves */
+.hero-art-area:not(:hover) .hero-art-card {
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 350ms ease;
+}
+
+/* shadow slides opposite to the tilt for a sense of depth */
+.hero-art-area:hover .hero-art-card {
+  box-shadow:
+    calc(var(--mx, 0) * -18px) calc(30px + var(--my, 0) * -14px) 70px rgba(5, 2, 15, 0.34),
+    0 0 0 9px rgba(222, 192, 234, 0.08),
+    0 0 0 22px rgba(222, 192, 234, 0.035),
+    inset 0 0 40px rgba(255, 255, 255, 0.36);
+}
+
+/* moving light highlight */
+.card-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 40%),
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0) 55%
+  );
+  transition: opacity 300ms ease;
+}
+
+.hero-art-area:hover .card-glare {
+  opacity: 1;
+}
+
+/* ---------- Hero: parallax depth layers ---------- */
+.hero-art-halo {
+  translate: calc(var(--mx, 0) * -16px) calc(var(--my, 0) * -16px);
+  transition: translate 250ms ease-out;
+}
+
+.orbit-one {
+  translate: calc(var(--mx, 0) * 12px) calc(var(--my, 0) * 10px);
+  transition: translate 250ms ease-out, transform 700ms ease, opacity 700ms ease;
+}
+
+.orbit-two {
+  translate: calc(var(--mx, 0) * -20px) calc(var(--my, 0) * -14px);
+  transition: translate 250ms ease-out, transform 700ms ease, opacity 700ms ease;
+}
+
+/* stop the older hover rule from squashing the orbit rings */
+.hero-art-area:hover .orbit-one {
+  transform: rotate(-22deg) scaleY(0.72);
+}
+
+.hero-art-area:hover .orbit-two {
+  transform: rotate(39deg) scaleY(0.76);
+}
+
+.hero-twinkle {
+  transition: translate 250ms ease-out;
+}
+
+.twinkle-a {
+  translate: calc(var(--mx, 0) * 24px) calc(var(--my, 0) * 20px);
+}
+
+.twinkle-b {
+  translate: calc(var(--mx, 0) * -18px) calc(var(--my, 0) * -14px);
+}
+
+.twinkle-c {
+  translate: calc(var(--mx, 0) * 30px) calc(var(--my, 0) * -22px);
+}
+
+.secret-star {
+  translate: calc(var(--mx, 0) * 20px) calc(var(--my, 0) * 16px);
+  transition:
+    translate 250ms ease-out,
+    transform 250ms ease,
+    filter 250ms ease,
+    color 250ms ease;
+}
+
+/* ---------- Project cards: tilt + glare ---------- */
+.project-reveal {
+  display: flex;
+  min-width: 0;
+}
+
+.project-reveal > .project-card {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.project-card {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 350ms ease,
+    border-color 300ms ease;
+  will-change: transform;
+}
+
+.project-card:hover {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-8px);
+  transition:
+    transform 140ms ease-out,
+    box-shadow 350ms ease,
+    border-color 300ms ease;
+  box-shadow: calc(var(--mx, 0) * -12px) calc(26px + var(--my, 0) * -10px) 52px rgba(38, 23, 48, 0.2);
+}
+
+/* light sheen that follows the cursor (replaces the older sweeping shine) */
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.5),
+    rgba(236, 214, 246, 0.22) 32%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  opacity: 0;
+  transform: none;
+  transition: opacity 300ms ease;
+}
+
+.project-card:hover::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* the little illustration drifts with the cursor */
+.project-card .project-image > span.project-art {
+  translate: calc(var(--mx, 0) * 10px) calc(var(--my, 0) * 8px);
+  transition:
+    transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    translate 200ms ease-out;
+}
+
+@media (max-width: 900px) {
+  .project-card:hover {
+    transform: perspective(900px) translateY(-3px);
+  }
+}
+
+/* touch screens have no hover, so skip the sheen */
+@media (hover: none) {
+  .project-card::after,
+  .card-glare {
+    display: none;
+  }
+}
+
+/* ---------- Scroll reveals ---------- */
+[data-reveal] {
+  opacity: 0;
+  translate: 0 28px;
+  transition:
+    opacity 700ms ease,
+    translate 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ---------- Respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+    transition: none !important;
+  }
+
+  .hero-art-card,
+  .project-card,
+  .project-card:hover {
+    transform: none !important;
+  }
+}
