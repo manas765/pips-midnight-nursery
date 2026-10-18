@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore, type CSSProperties, type PointerEvent } from "react";
 import { isMuted, setMuted, subscribe } from "./audio";
 import { useClickChimes } from "./useClickChimes";
+import SparkleTrail from "./SparkleTrail";
 
 type Project = {
   number: string;
@@ -949,6 +950,8 @@ function App() {
         <span className="footer-note">A tiny reminder to keep dreaming.</span>
         <span className="footer-credit">MADE WITH ♡ AND A LITTLE MAGIC</span>
       </footer>
+
+      <SparkleTrail />
 
       {/* THEME AND SOUND CONTROLS */}
       <div className="utility-controls">
