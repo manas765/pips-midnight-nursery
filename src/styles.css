@@ -4777,3 +4777,89 @@ h3 {
     transition: none !important;
   }
 }
+.route-journey-controls {
+  width: min(100%, 620px);
+  margin: 1.5rem auto 0;
+  padding: 1.25rem;
+  border: 1px solid rgba(207, 174, 230, 0.22);
+  border-radius: 20px;
+  background: rgba(35, 24, 53, 0.48);
+  text-align: center;
+}
+
+.route-journey-status {
+  margin: 0 0 1rem;
+  color: #e8d8f6;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.route-journey-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.route-control-button {
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(222, 192, 244, 0.3);
+  border-radius: 999px;
+  background: rgba(70, 48, 92, 0.6);
+  color: #f8efff;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    opacity 180ms ease;
+  touch-action: manipulation;
+}
+
+.route-control-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(111, 77, 139, 0.8);
+}
+
+.route-control-button:focus-visible {
+  outline: 2px solid #f0c8ed;
+  outline-offset: 3px;
+}
+
+.route-control-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.route-control-primary {
+  border-color: rgba(255, 218, 163, 0.5);
+  background: linear-gradient(135deg, #8969a9, #b878a1);
+  color: #fffaf5;
+}
+
+.route-control-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #9b7ab9, #ce8db2);
+}
+
+@media (max-width: 480px) {
+  .route-journey-controls {
+    padding: 1rem 0.75rem;
+  }
+
+  .route-journey-buttons {
+    gap: 0.5rem;
+  }
+
+  .route-control-button {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-control-button {
+    transition: none;
+  }
+}
