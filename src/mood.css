@@ -70,7 +70,6 @@
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  translate: -50% -50%;
   transform: scaleY(0);
   transform-origin: 50% 0;
   transition: transform 0.5s ease;
@@ -84,6 +83,8 @@
   width: 11.16%;
   height: auto;
   aspect-ratio: 11.16 / 9.15;
+  margin-left: -5.58%;
+  margin-top: -4.575%;
   background: linear-gradient(to bottom, #e2d8d2, #ded0c9);
 }
 
@@ -93,6 +94,8 @@
   width: 11.05%;
   height: auto;
   aspect-ratio: 11.05 / 8.93;
+  margin-left: -5.525%;
+  margin-top: -4.465%;
   background: linear-gradient(to bottom, #f6f1ea, #f1e4dc);
 }
 
