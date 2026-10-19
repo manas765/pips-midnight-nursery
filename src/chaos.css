@@ -33,25 +33,34 @@ html[data-vp] {
   animation: chaos-bob 5s ease-in-out infinite;
 }
 
-.chaos-sticker.s1 { top: 22%; left: 10px; rotate: -12deg; background: #fff1a8; }
-.chaos-sticker.s2 { top: 38%; right: 10px; rotate: 9deg; background: #ffd1e3; animation-delay: -1s; }
-.chaos-sticker.s3 { top: 66%; left: 10px; rotate: 7deg; background: #d6e4ff; animation-delay: -2s; }
-.chaos-sticker.s4 { top: 80%; right: 10px; rotate: -8deg; background: #d9f5df; animation-delay: -3s; }
-.chaos-sticker.s5 { top: 52%; left: 10px; rotate: -5deg; background: #e5d4ff; animation-delay: -4s; }
-.chaos-sticker.s6 { top: 14%; right: 10px; rotate: 11deg; background: #ffe0b8; animation-delay: -2.5s; }
+/* Stickers peek in from the screen edges so they never cover page text.
+   --peek is how much of each sticker is visible. */
+.chaos-sticker { --peek: 34px; }
+.chaos-sticker.s1 { top: 22%; left: 0; translate: calc(-100% + var(--peek)); rotate: -12deg; background: #fff1a8; }
+.chaos-sticker.s2 { top: 38%; right: 0; translate: calc(100% - var(--peek)); rotate: 9deg; background: #ffd1e3; animation-delay: -1s; }
+.chaos-sticker.s3 { top: 66%; left: 0; translate: calc(-100% + var(--peek)); rotate: 7deg; background: #d6e4ff; animation-delay: -2s; }
+.chaos-sticker.s4 { top: 80%; right: 0; translate: calc(100% - var(--peek)); rotate: -8deg; background: #d9f5df; animation-delay: -3s; }
+.chaos-sticker.s5 { top: 52%; left: 0; translate: calc(-100% + var(--peek)); rotate: -5deg; background: #e5d4ff; animation-delay: -4s; }
+.chaos-sticker.s6 { top: 14%; right: 0; translate: calc(100% - var(--peek)); rotate: 11deg; background: #ffe0b8; animation-delay: -2.5s; }
 
 @keyframes chaos-bob {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -6px; }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Small tablets have almost no side margin, so no stickers there */
+@media (max-width: 759px) {
+  .chaos-stickers { display: none; }
 }
 
 /* Narrow desktops: keep only stickers that sit in the margins */
 @media (max-width: 1279px) {
+  .chaos-sticker { --peek: 20px; }
   .chaos-sticker.s4, .chaos-sticker.s5, .chaos-sticker.s6 { display: none; }
 }
 
 /* Tablet: smaller stickers pushed to the edges */
-html[data-vp="tablet"] .chaos-sticker { font-size: 10px; padding: 5px 10px; opacity: 0.8; }
+html[data-vp="tablet"] .chaos-sticker { --peek: 18px; font-size: 10px; padding: 5px 10px; opacity: 0.85; }
 
 .chaos-ribbon {
   overflow: hidden;
