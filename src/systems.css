@@ -172,3 +172,9 @@
   height: 1px;
   opacity: 0;
 }
+
+/* Accessibility: secret star tap target must be at least 24px */
+.secret-star {
+  min-width: 24px;
+  min-height: 24px;
+}

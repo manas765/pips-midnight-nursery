@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { ArrowIcon } from "../lib";
+import { useModalA11y } from "../useModalA11y";
 import type { Project } from "./Projects";
 
 function useEscape(onClose: () => void) {
@@ -18,8 +19,7 @@ type ProjectModalProps = {
 };
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
-  useEscape(onClose);
-
+  useModalA11y(onClose);
   return (
     <div className="modal-backdrop" onClick={onClose} role="presentation">
       <section
@@ -76,8 +76,7 @@ type SecretModalProps = {
 };
 
 export function SecretModal({ onClose }: SecretModalProps) {
-  useEscape(onClose);
-
+  useModalA11y(onClose);
   return (
     <div
       className="modal-backdrop secret-backdrop"

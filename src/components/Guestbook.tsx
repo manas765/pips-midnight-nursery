@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowIcon } from "../lib";
 import { supabase } from "../supabase";
+import { useModalA11y } from "../useModalA11y";
 import "../systems.css";
 
 const MAX_MESSAGE = 300;
@@ -183,19 +184,10 @@ export function GuestbookModal({ onClose }: GuestbookModalProps) {
   const [busy, setBusy] = useState(false);
   const firstField = useRef<HTMLInputElement>(null);
 
-  const closeRef = useRef(onClose);
-  closeRef.current = onClose;
+  useModalA11y(onClose, false);
 
   useEffect(() => {
     firstField.current?.focus();
-  }, []);
-
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeRef.current();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
   }, []);
 
   async function submit(event: React.FormEvent) {
