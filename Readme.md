@@ -103,3 +103,8 @@ Built by a team of three during the haX.baby sprint (17 to 19 October 2026).
 ## License
 
 Made for the haX.baby hackathon. Pip and the official artwork belong to haX.baby.
+
+## Performance
+
+Lighthouse (mobile): Performance 88, Accessibility 100, Best Practices 100, SEO 100.
+
