@@ -30,7 +30,7 @@ export const projects: Project[] = [
     title: "Moonlight Garden",
     description: "A whimsical little world where every night brings a new discovery.",
     symbol: "🌷",
-    image: "/pip_lullaby_box.png",
+    image: "/pip_lullaby_box.webp",
     details:
       "Moonlight Garden explores a magical garden that comes alive after sunset. Discover tiny details, follow glowing paths and find something new every time you visit.",
     note: "For curious minds and midnight wanderers.",
@@ -41,7 +41,7 @@ export const projects: Project[] = [
     title: "The Star Collector",
     description: "A story about small wonders, faraway places and finding your own light.",
     symbol: "🌟",
-    image: "/pip_dream_lantern.png",
+    image: "/pip_dream_lantern.webp",
     details:
       "The Star Collector is a story concept about collecting moments of wonder. Every star represents a memory, a lesson or a small act of kindness.",
     note: "Every little light has a story.",
