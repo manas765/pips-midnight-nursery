@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { ArrowIcon, handleTilt, resetTilt } from "../lib";
 
+
 export type Project = {
   number: string;
   category: string;
@@ -15,36 +16,36 @@ export type Project = {
 export const projects: Project[] = [
   {
     number: "01",
-    category: "DREAM JOURNAL",
-    title: "The Cloud Keeper",
-    description: "A little collection of dreams, clouds and things worth remembering.",
-    symbol: "☁️",
-    image: "/pip_avatar_cloud.webp",
+    category: "LULLABY LAB",
+    title: "The Lullaby Lab",
+    description: "I built a little music box and tucked my first lullaby inside.",
+    symbol: "♫",
+    image: "/pip_lullaby_box.png",
     details:
-      "The Cloud Keeper is a gentle dream-journaling concept. Collect little moments, save the things you dream about and turn fleeting thoughts into a tiny personal archive.",
-    note: "A place for your thoughts to land softly.",
+      "Welcome to my Lullaby Lab! I wind my little music box, arrange sleepy notes, and stitch them into melodies for dreamers across the night sky.",
+    note: "Every dream deserves its own little tune.",
   },
   {
     number: "02",
-    category: "CREATIVE PLAY",
-    title: "Moonlight Garden",
-    description: "A whimsical little world where every night brings a new discovery.",
-    symbol: "🌷",
-    image: "/pip_lullaby_box.png",
+    category: "NIGHTLIGHT COLLECTION",
+    title: "Nightlight Collection",
+    description: "I designed sleepy little lights to make bedtime feel cozy.",
+    symbol: "✦",
+    image: "/pip_dream_lantern.png",
     details:
-      "Moonlight Garden explores a magical garden that comes alive after sunset. Discover tiny details, follow glowing paths and find something new every time you visit.",
-    note: "For curious minds and midnight wanderers.",
+      "These are my handmade dream lights! Each lantern glows with a little warmth, helping the nighttime feel softer. Pick a light and let your own tiny corner glow.",
+    note: "A little light goes a long way.",
   },
   {
     number: "03",
-    category: "LITTLE STORIES",
-    title: "The Star Collector",
-    description: "A story about small wonders, faraway places and finding your own light.",
-    symbol: "🌟",
-    image: "/pip_dream_lantern.png",
+    category: "DREAM DELIVERY",
+    title: "Dream Delivery Routes",
+    description: "I fly freshly stitched dreams over rooftops to my sleepy neighbours.",
+    symbol: "☁",
+    image: "/pip_avatar_cloud.webp",
     details:
-      "The Star Collector is a story concept about collecting moments of wonder. Every star represents a memory, a lesson or a small act of kindness.",
-    note: "Every little light has a story.",
+      "I'm Pip, Junior Dream Engineer, and every night I deliver dreams across the village. Follow my winding route past sleepy rooftops and glowing windows. There's always one more dream waiting!",
+    note: "Dream delivery in progress. Please stay cozy.",
   },
 ];
 

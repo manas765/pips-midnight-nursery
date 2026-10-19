@@ -1,35 +1,68 @@
-import { MOOD_INFO, nextMood, type Mood } from "./mood";
-import { useEffect, useState, useSyncExternalStore } from "react";
-import { isMuted, setMuted, subscribe } from "./audio";
+
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+} from "react";
+
+import { isMuted, setMuted, subscribe, tone } from "./audio";
 import { useClickChimes } from "./useClickChimes";
 import SparkleTrail from "./SparkleTrail";
-import { ArrowIcon } from "./lib";
+import { ArrowIcon, handleTilt, resetTilt } from "./lib";
+
 import { Hero } from "./components/Hero";
 import { Story } from "./components/Story";
 import { Projects, type Project } from "./components/Projects";
-import { RouteMap } from "./components/RouteMap";
+import RouteMap from "./components/RouteMap";
 import { About } from "./components/About";
 import { GuestbookSection, GuestbookModal } from "./components/Guestbook";
 import { ProjectModal, SecretModal } from "./components/Modals";
+import LullabyLab from "./components/LullabyLab";
+import { Nightlights } from "./components/toys/Nightlights";
+
+function DoodleMoon() {
+  return <span className="doodle-moon">☾</span>;
+}
+
+function CloudCluster() {
+  return <span className="cloud-cluster">☁</span>;
+}
+
+function MapMoon() {
+  return <span aria-hidden="true" className="map-moon">☾</span>;
+}
+
+function ChaosLayer() {
+  return <SparkleTrail />;
+}
+
+function Counter() {
+  return <span className="visitor-counter">A little corner of wonder ✦</span>;
+}
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [secretOpen, setSecretOpen] = useState(false);
   const [dawnMode, setDawnMode] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
   const [guestbookOpen, setGuestbookOpen] = useState(false);
   const [guestName, setGuestName] = useState("");
   const [guestMessage, setGuestMessage] = useState("");
   const [guestSubmitted, setGuestSubmitted] = useState(false);
   const [glow, setGlow] = useState(0);
 
+  const muted = useSyncExternalStore(subscribe, isMuted, isMuted);
+  const soundOn = !muted;
+
+  useClickChimes();
+
   useEffect(() => {
     const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
 
     if (!("IntersectionObserver" in window)) {
       targets.forEach((element) => element.classList.add("is-visible"));
-      return undefined;
+      return;
     }
 
     const observer = new IntersectionObserver(
@@ -45,6 +78,7 @@ function App() {
     );
 
     targets.forEach((element) => observer.observe(element));
+
     return () => observer.disconnect();
   }, []);
 
@@ -55,6 +89,10 @@ function App() {
   function scrollToSection(id: string) {
     closeMobileMenu();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function toggleSound() {
+    setMuted(soundOn);
   }
 
   return (
@@ -88,7 +126,7 @@ function App() {
           className="mobile-menu-button"
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileMenuOpen}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={() => setMobileMenuOpen((open) => !open)}
         >
           <span />
           <span />
@@ -116,7 +154,6 @@ function App() {
       </header>
 
       <main>
-        {/* HERO */}
         <section className="hero section-wrap" id="home">
           <div className="hero-copy">
             <div className="eyebrow">
@@ -230,7 +267,6 @@ function App() {
           </div>
         </section>
 
-        {/* DISCOVERY STRIP */}
         <div className="intro-strip">
           <div className="strip-inner">
             <span><i>✦</i> SOFT THOUGHTS</span>
@@ -242,94 +278,8 @@ function App() {
           </div>
         </div>
 
-        {/* STORY */}
-        <section className="story-section section-padding" id="story">
-          <div className="section-label" data-reveal>
-            <span>01 / A SMALL BEGINNING</span>
-            <span>EVERY LITTLE WORLD STARTS SOMEWHERE</span>
-          </div>
+        <Story />
 
-          <div className="story-heading-grid" data-reveal>
-            <h2>
-              Every dream
-              <br />
-              has a <em>beginning.</em>
-            </h2>
-            <p className="section-intro">
-              This is the story of a little place built for big feelings,
-              wild imaginations and the wonderful art of simply being.
-            </p>
-          </div>
-
-          <div className="story-timeline">
-            <article
-              className="story-stop"
-              data-reveal
-              style={{ "--reveal-delay": "0ms" } as CSSProperties}
-            >
-              <span className="timeline-marker">01</span>
-              <div className="story-card story-card-one">
-                <span className="story-kicker">ONCE UPON A NIGHT</span>
-                <h3>A little spark</h3>
-                <p>
-                  It started with a simple thought: what if the internet
-                  had a softer corner? Somewhere you could wander without
-                  needing to be anything other than yourself.
-                </p>
-                <div className="story-doodle" aria-hidden="true">
-                  <DoodleMoon />
-                </div>
-              </div>
-            </article>
-
-            <article
-              className="story-stop"
-              data-reveal
-              style={{ "--reveal-delay": "140ms" } as CSSProperties}
-            >
-              <span className="timeline-marker">02</span>
-              <div className="story-card story-card-two">
-                <span className="story-kicker">A WORLD TAKES SHAPE</span>
-                <h3>Room for wonder</h3>
-                <p>
-                  Little stories found their way in. Colours became
-                  constellations, quiet moments became treasures, and
-                  ordinary days grew a sprinkle of magic.
-                </p>
-                <div className="story-clouds" aria-hidden="true">
-                  <CloudCluster />
-                </div>
-              </div>
-            </article>
-
-            <article
-              className="story-stop"
-              data-reveal
-              style={{ "--reveal-delay": "280ms" } as CSSProperties}
-            >
-              <span className="timeline-marker">03</span>
-              <div className="story-card story-card-three">
-                <span className="story-kicker">AND NOW, YOU&apos;RE HERE</span>
-                <h3>Your own little corner</h3>
-                <p>
-                  And now there&apos;s room for you, too. Bring your
-                  curiosity, your half-finished dreams and whatever
-                  happens to be on your mind tonight.
-                </p>
-                <div className="story-signature">
-                  With love, <strong>Pip</strong> ✧
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <p className="story-footnote" data-reveal>
-            <span className="tiny-moon">☾</span>
-            The best stories are the ones we get to keep adding to.
-          </p>
-        </section>
-
-        {/* LITTLE THINGS */}
         <section className="work-section section-padding" id="work">
           <div className="section-wrap">
             <div className="section-label" data-reveal>
@@ -349,83 +299,7 @@ function App() {
               </p>
             </div>
 
-            <div className="project-grid">
-              {projects.map((project, index) => (
-                <div
-                  className="project-reveal"
-                  data-reveal
-                  key={project.number}
-                  style={{ "--reveal-delay": `${index * 120}ms` } as CSSProperties}
-                >
-                  <button
-                    className={`project-card project-card-${project.number.slice(-1)}`}
-                    onClick={() => setSelectedProject(project)}
-                    onPointerMove={(event) => handleTilt(event, 8)}
-                    onPointerLeave={resetTilt}
-                  >
-                    <span className="project-card-top">
-                      <span>NO. {project.number}</span>
-                      <span className="project-open">↗</span>
-                    </span>
-
-                    <span className="project-image">
-                      <span className="image-orbit orbit-project" />
-                      <img
-                        className="project-art-image"
-                        src={project.image}
-                        alt={project.title}
-                        loading="lazy"
-                      />
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          position: "absolute",
-                          right: "17%",
-                          top: "18%",
-                          color: "#b294c5",
-                          fontSize: "22px",
-                        }}
-                      >
-                        ✦
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          position: "absolute",
-                          left: "15%",
-                          bottom: "15%",
-                          color: "#c19ab8",
-                          fontSize: "18px",
-                        }}
-                      >
-                        ✧
-                      </span>
-                    </span>
-
-                    <span className="project-copy">
-                      <span className="project-category">{project.category}</span>
-                      <span
-                        style={{
-                          fontFamily: "var(--display)",
-                          fontSize: "25px",
-                          fontWeight: 500,
-                          letterSpacing: "-.035em",
-                          margin: "12px 0 8px",
-                        }}
-                      >
-                        {project.title}
-                      </span>
-                      <span className="project-description-text">
-                        {project.description}
-                      </span>
-                      <span className="project-read-more">
-                        Take a closer look <ArrowIcon />
-                      </span>
-                    </span>
-                  </button>
-                </div>
-              ))}
-            </div>
+            <Projects onSelect={setSelectedProject} />
 
             <p className="work-caption" data-reveal>
               <span>✦</span> Made for curious minds and wonderfully wandering hearts <span>✦</span>
@@ -433,75 +307,13 @@ function App() {
           </div>
         </section>
 
-        {/* ROUTE MAP */}
-        <RouteMap moon={<MapMoon />} onNext={() => scrollToSection("about")} />
+        <RouteMap
+          moon={<MapMoon />}
+          onNext={() => scrollToSection("about")}
+        />
 
-        {/* ABOUT PIP */}
-        <section className="about-section" id="about">
-          <div className="about-inner section-wrap">
-            <div className="about-art" data-reveal>
-              <div
-                className="about-art-circle"
-                style={{
-                  background:
-                    "radial-gradient(circle at 50% 35%, #fff8e9, #e5cfe7 65%, #c3a6d4)",
-                }}
-              >
-                <div style={{ width: "100%", aspectRatio: "1", padding: "6%" }}>
-                  <img
-                    src="/pip_portrait.png"
-                    alt="Pip, the little dreamer"
-                    className="about-art-image"
-                  />
-                </div>
-              </div>
-              <span className="about-sparkle sparkle-one">✦</span>
-              <span className="about-sparkle sparkle-two">✧</span>
-              <span className="about-art-label">A LITTLE LOVE LETTER TO WONDER</span>
-            </div>
-
-            <div
-              className="about-copy"
-              data-reveal
-              style={{ "--reveal-delay": "150ms" } as CSSProperties}
-            >
-              <div className="section-label">
-                <span>04 / A NOTE FROM PIP</span>
-              </div>
-
-              <h2>
-                A little softer.
-                <br />
-                A little <em>closer.</em>
-              </h2>
-
-              <p className="about-lead">
-                I think there should always be a place where you can
-                put the world down for a while.
-              </p>
-
-              <p>
-                Pip&apos;s Midnight Nursery is a tiny reminder that you
-                don&apos;t have to have everything figured out. You can
-                be a work in progress. You can change your mind. You
-                can start again tomorrow.
-              </p>
-
-              <div className="trait-list">
-                <span>Curiosity first</span>
-                <span>Softness always</span>
-                <span>Wonder without limits</span>
-              </div>
-
-              <blockquote className="about-quote">
-                “You are allowed to grow at your own pace.”
-                <span>— A LITTLE REMINDER FROM PIP</span>
-              </blockquote>
-            </div>
-          </div>
-        </section>
-
-        {/* GUESTBOOK */}
+        <About />
+        
         <section className="guestbook-section section-wrap" id="guestbook">
           <div className="guestbook-card" data-reveal>
             <div className="guestbook-cloud cloud-left" />
@@ -536,7 +348,6 @@ function App() {
 
       <ChaosLayer />
 
-      {/* FOOTER */}
       <footer className="site-footer">
         <a className="footer-brand" href="#home">
           <span className="brand-mark">
@@ -551,11 +362,10 @@ function App() {
         <span className="footer-credit">MADE WITH ♡ AND A LITTLE MAGIC</span>
       </footer>
 
-      {/* THEME AND SOUND CONTROLS */}
       <div className="utility-controls">
         <button
           className="utility-button"
-          onClick={() => setDawnMode(!dawnMode)}
+          onClick={() => setDawnMode((mode) => !mode)}
           aria-label={dawnMode ? "Switch to midnight theme" : "Switch to dawn theme"}
         >
           <span>{dawnMode ? "☾" : "☼"}</span>
@@ -564,7 +374,7 @@ function App() {
 
         <button
           className={`utility-button ${soundOn ? "sound-on" : ""}`}
-          onClick={() => setSoundOn(!soundOn)}
+          onClick={toggleSound}
           aria-label="Toggle sound preference"
           title={soundOn ? "Turn lullaby sound off" : "Allow lullaby sound"}
         >
@@ -573,10 +383,13 @@ function App() {
         </button>
       </div>
 
-      {/* PROJECT DETAIL MODAL */}
       {selectedProject && (
         <div
-          className={`modal-backdrop ${selectedProject.title === "Nightlight Collection" ? "lights-backdrop" : ""}`}
+          className={`modal-backdrop ${
+            selectedProject.title === "Nightlight Collection"
+              ? "lights-backdrop"
+              : ""
+          }`}
           style={{ "--glow": glow } as CSSProperties}
           onClick={() => setSelectedProject(null)}
           role="presentation"
@@ -611,27 +424,34 @@ function App() {
             </div>
 
             <div className="modal-content">
-              <span className="project-category">
-                {selectedProject.category}
-              </span>
+              <span className="project-category">{selectedProject.category}</span>
               <h2 id="project-modal-title">{selectedProject.title}</h2>
               <p>{selectedProject.details}</p>
+
               {selectedProject.title === "The Lullaby Lab" && (
                 <LullabyLab soundEnabled={soundOn} />
               )}
+
               {selectedProject.title === "Nightlight Collection" && (
                 <Nightlights soundEnabled={soundOn} onGlow={setGlow} />
               )}
+
               <div className="modal-note">
                 <span>✧</span>
                 {selectedProject.note}
               </div>
+
               <button
                 className="button button-primary"
                 onClick={() => {
-                  const toRoute = selectedProject.title === "Dream Delivery Routes";
+                  const toRoute =
+                    selectedProject.title === "Dream Delivery Routes";
+
                   setSelectedProject(null);
-                  if (toRoute) window.setTimeout(() => scrollToSection("route"), 60);
+
+                  if (toRoute) {
+                    window.setTimeout(() => scrollToSection("route"), 60);
+                  }
                 }}
               >
                 {selectedProject.title === "Dream Delivery Routes"
@@ -644,7 +464,6 @@ function App() {
         </div>
       )}
 
-      {/* SECRET STAR MODAL */}
       {secretOpen && (
         <div
           className="modal-backdrop secret-backdrop"
@@ -690,7 +509,6 @@ function App() {
         </div>
       )}
 
-      {/* GUESTBOOK MODAL */}
       {guestbookOpen && (
         <div
           className="modal-backdrop"
@@ -760,7 +578,10 @@ function App() {
                     margin: "0 auto",
                   }}
                 >
-                  <label htmlFor="guest-name" style={{ fontSize: "11px", color: "#e7d6ed" }}>
+                  <label
+                    htmlFor="guest-name"
+                    style={{ fontSize: "11px", color: "#e7d6ed" }}
+                  >
                     Your name (optional)
                   </label>
                   <input
@@ -779,7 +600,10 @@ function App() {
                     }}
                   />
 
-                  <label htmlFor="guest-message" style={{ fontSize: "11px", color: "#e7d6ed" }}>
+                  <label
+                    htmlFor="guest-message"
+                    style={{ fontSize: "11px", color: "#e7d6ed" }}
+                  >
                     Your little note
                   </label>
                   <textarea
