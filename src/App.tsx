@@ -1,3 +1,4 @@
+import { MOOD_INFO, nextMood, type Mood } from "./mood";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { isMuted, setMuted, subscribe } from "./audio";
 import { useClickChimes } from "./useClickChimes";
@@ -15,7 +16,7 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [secretOpen, setSecretOpen] = useState(false);
-  const [dawnMode, setDawnMode] = useState(false);
+  const [mood, setMood] = useState<Mood>("dreamy");
   const [guestbookOpen, setGuestbookOpen] = useState(false);
   const muted = useSyncExternalStore(subscribe, isMuted);
   useClickChimes();
@@ -54,7 +55,7 @@ function App() {
   }
 
   return (
-    <div className={`site-shell ${dawnMode ? "theme-dawn" : ""}`}>
+    <div className={`site-shell mood-${mood} ${mood === "dawn" ? "theme-dawn" : ""}`}>
       <div className="announcement-bar">
         <span className="star-glyph">✦</span>
         <span>A LITTLE CORNER OF THE INTERNET</span>
@@ -116,6 +117,7 @@ function App() {
         <Hero
           onSecret={() => setSecretOpen(true)}
           onScrollTo={scrollToSection}
+          mood={mood}
         />
         <Story />
         <Projects onSelect={setSelectedProject} />
@@ -144,11 +146,11 @@ function App() {
       <div className="utility-controls">
         <button
           className="utility-button"
-          onClick={() => setDawnMode(!dawnMode)}
-          aria-label={dawnMode ? "Switch to midnight theme" : "Switch to dawn theme"}
+          onClick={() => setMood(nextMood(mood))}
+          aria-label={`Mood: ${MOOD_INFO[mood].label}. Tap to change.`}
         >
-          <span>{dawnMode ? "☾" : "☼"}</span>
-          <small>{dawnMode ? "Midnight" : "Dawn mode"}</small>
+          <span>{MOOD_INFO[mood].icon}</span>
+          <small>{MOOD_INFO[mood].label}</small>
         </button>
 
         <button

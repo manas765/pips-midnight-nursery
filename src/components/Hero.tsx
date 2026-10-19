@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowIcon, handleTilt, resetTilt } from "../lib";
 import { tone } from "../audio";
+import type { Mood } from "../mood";
 import { PipFace } from "./PipFace";
 import "../hero.css";
 
 type HeroProps = {
   onSecret: () => void;
   onScrollTo: (id: string) => void;
+  mood: Mood;
 };
 
 // A soft, slow lullaby hum (only audible when sound is on)
 const HUM = [392, 440, 523.25, 440, 392, 329.63];
 
-export function Hero({ onSecret, onScrollTo }: HeroProps) {
+export function Hero({ onSecret, onScrollTo, mood }: HeroProps) {
   const [awake, setAwake] = useState(false);
   const timers = useRef<number[]>([]);
 
@@ -95,7 +97,7 @@ export function Hero({ onSecret, onScrollTo }: HeroProps) {
           <div className="orbit orbit-two" />
 
           <div className="hero-art-card">
-            <PipFace awake={awake} />
+            <PipFace awake={awake} mood={mood} />
             <div className="card-glare" aria-hidden="true" />
           </div>
 
