@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import RouteMap from "./components/RouteMap";
+import { Nightlights } from "./components/toys/Nightlights";
 
 type Project = {
   number: string;
@@ -14,7 +16,7 @@ type Project = {
 const projects: Project[] = [
   {
     number: "01",
-    category: "LULLABY LAB",
+    category: "MUSIC BOX",
     title: "The Lullaby Lab",
     description: "I built a little music box and tucked my very first lullaby inside.",
     symbol: "♫",
@@ -24,7 +26,7 @@ const projects: Project[] = [
   },
   {
     number: "02",
-    category: "NIGHTLIGHT COLLECTION",
+    category: "LAMPS & LANTERNS",
     title: "Nightlight Collection",
     description: "I designed sleepy little lights to make every bedtime feel cozy.",
     symbol: "✦",
@@ -34,7 +36,7 @@ const projects: Project[] = [
   },
   {
     number: "03",
-    category: "DREAM DELIVERY",
+    category: "FLIGHT PLANS",
     title: "Dream Delivery Routes",
     description: "I fly freshly stitched dreams over rooftops to my sleepy neighbours.",
     symbol: "☁",
@@ -154,89 +156,16 @@ function MapMoon() {
   );
 }
 
-function AboutMoon() {
-  return (
-    <svg viewBox="0 0 300 300" width="100%" height="100%" aria-hidden="true">
-      <defs>
-        <radialGradient id="aboutMoonFill" cx="40%" cy="40%" r="65%">
-          <stop offset="0%" stopColor="#fffdf2" />
-          <stop offset="65%" stopColor="#f7e3c4" />
-          <stop offset="100%" stopColor="#e8cadb" />
-        </radialGradient>
-        <radialGradient id="aboutHalo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#fff6dc" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#fff6dc" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="aboutCloudFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" />
-          <stop offset="100%" stopColor="#e3d0ec" />
-        </linearGradient>
-        <mask id="aboutMoonMask">
-          <rect width="300" height="300" fill="white" />
-          <circle cx="178" cy="98" r="52" fill="black" />
-        </mask>
-        <path
-          id="aboutStar"
-          d="M0,-10 C1.5,-3 3,-1.5 10,0 C3,1.5 1.5,3 0,10 C-1.5,3 -3,1.5 -10,0 C-3,-1.5 -1.5,-3 0,-10Z"
-        />
-      </defs>
-
-      <circle cx="140" cy="118" r="100" fill="url(#aboutHalo)" />
-
-      <g mask="url(#aboutMoonMask)">
-        <circle cx="138" cy="120" r="64" fill="url(#aboutMoonFill)" />
-        <circle cx="98" cy="160" r="9" fill="#d9bfd0" opacity="0.5" />
-        <circle cx="120" cy="82" r="6" fill="#d9bfd0" opacity="0.45" />
-        <circle cx="88" cy="100" r="4" fill="#d9bfd0" opacity="0.4" />
-      </g>
-
-      <path d="M88 128 q8 7 16 0" stroke="#8a6a8f" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      <path d="M98 154 q6 5 12 0" stroke="#d58fa8" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      <circle cx="84" cy="144" r="7" fill="#f2b5c6" opacity="0.6" />
-
-      <g fill="#fff3c9" stroke="#e8cf9a" strokeWidth="0.5">
-        <use href="#aboutStar" transform="translate(216 72) scale(1.3)" />
-        <use href="#aboutStar" transform="translate(236 150) scale(0.7)" />
-        <use href="#aboutStar" transform="translate(70 66) scale(0.8)" />
-      </g>
-
-      <g fill="url(#aboutCloudFill)">
-        <g transform="translate(62 186) scale(0.95)">
-          <ellipse cx="60" cy="40" rx="62" ry="20" />
-          <circle cx="38" cy="28" r="20" />
-          <circle cx="70" cy="20" r="26" />
-          <circle cx="98" cy="32" r="18" />
-        </g>
-        <g transform="translate(150 204) scale(0.6)">
-          <ellipse cx="60" cy="40" rx="62" ry="20" />
-          <circle cx="38" cy="28" r="20" />
-          <circle cx="70" cy="20" r="26" />
-          <circle cx="98" cy="32" r="18" />
-        </g>
-      </g>
-
-      <text
-        x="150"
-        y="268"
-        textAnchor="middle"
-        style={{ fontFamily: "var(--display)", fontSize: 22, fill: "#72547f" }}
-      >
-        little by little
-      </text>
-    </svg>
-  );
-}
-
 const lullabyNotes = [
-  { name: "C", frequency: 261.63 },
-  { name: "D", frequency: 293.66 },
-  { name: "E", frequency: 329.63 },
-  { name: "G", frequency: 392.0 },
-  { name: "A", frequency: 440.0 },
-  { name: "G", frequency: 392.0 },
-  { name: "E", frequency: 329.63 },
-  { name: "D", frequency: 293.66 },
+  { name: "C", frequency: 523.25 },
+  { name: "D", frequency: 587.33 },
+  { name: "E", frequency: 659.25 },
+  { name: "G", frequency: 783.99 },
+  { name: "A", frequency: 880.0 },
 ];
+
+// Indexes into lullabyNotes. -1 is a rest.
+const lullabyMelody = [2, 3, 4, 3, 2, 1, 0, 1, 2, 3, 2, -1, 3, 4, 3, 2, 1, 0, 1, 2, 0, -1];
 
 function LullabyLab({ soundEnabled }: { soundEnabled: boolean }) {
   const notes = lullabyNotes;
@@ -282,11 +211,15 @@ function LullabyLab({ soundEnabled }: { soundEnabled: boolean }) {
   useEffect(() => {
     if (!playing) return;
     const playNext = () => {
-      const index = stepRef.current % notes.length;
-      setActiveNote(index);
-      addStar();
-      playTone(notes[index].frequency);
+      const noteIndex = lullabyMelody[stepRef.current % lullabyMelody.length];
       stepRef.current += 1;
+      if (noteIndex < 0) {
+        setActiveNote(-1);
+        return;
+      }
+      setActiveNote(noteIndex);
+      addStar();
+      playTone(notes[noteIndex].frequency);
     };
     playNext();
     timerRef.current = window.setInterval(playNext, 650);
@@ -366,7 +299,7 @@ function LullabyLab({ soundEnabled }: { soundEnabled: boolean }) {
         </div>
       </div>
       <div className="lullaby-notes" aria-label="Musical notes">
-        {notes.slice(0, 5).map((note, index) => (
+        {notes.map((note, index) => (
           <button type="button" key={`${note.name}-${index}`} className={`lullaby-note ${activeNote === index ? "lullaby-note-active" : ""}`} onClick={() => { setActiveNote(index); addStar(); playTone(note.frequency); }} aria-label={`Play note ${note.name}`} aria-pressed={activeNote === index}>{note.name}</button>
         ))}
       </div>
@@ -376,7 +309,7 @@ function LullabyLab({ soundEnabled }: { soundEnabled: boolean }) {
         ) : (
           <button type="button" className="lullaby-stop" onClick={stopLullaby}>■ Stop lullaby</button>
         )}
-        <span className="lullaby-status" aria-live="polite">{playing ? soundEnabled ? "A little song for sleepy dreamers…" : "The stars are dancing silently…" : "Your music box is waiting."}</span>
+        <span className="lullaby-status" aria-live="polite">{playing ? soundEnabled ? "A little song for sleepy dreamers…" : "The stars are dancing silently…" : soundEnabled ? "Your music box is waiting." : "Sound is off. Flip the sound switch so I can hum!"}</span>
       </div>
     </div>
   );
@@ -392,6 +325,7 @@ function App() {
   const [guestName, setGuestName] = useState("");
   const [guestMessage, setGuestMessage] = useState("");
   const [guestSubmitted, setGuestSubmitted] = useState(false);
+  const [glow, setGlow] = useState(0);
 
   useEffect(() => {
     const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -549,8 +483,7 @@ function App() {
             <div className="orbit orbit-one" />
             <div className="orbit orbit-two" />
 
-            
-             <div className="hero-art-card">
+            <div className="hero-art-card">
               <img
                 src="/pip_dream_lantern.png"
                 alt="Pip's magical dream lantern"
@@ -727,72 +660,72 @@ function App() {
                   key={project.number}
                   style={{ "--reveal-delay": `${index * 120}ms` } as CSSProperties}
                 >
-                <button
-                  className={`project-card project-card-${project.number.slice(-1)}`}
-                  onClick={() => setSelectedProject(project)}
-                  onPointerMove={(event) => handleTilt(event, 8)}
-                  onPointerLeave={resetTilt}
-                >
-                  <span className="project-card-top">
-                    <span>NO. {project.number}</span>
-                    <span className="project-open">↗</span>
-                  </span>
+                  <button
+                    className={`project-card project-card-${project.number.slice(-1)}`}
+                    onClick={() => setSelectedProject(project)}
+                    onPointerMove={(event) => handleTilt(event, 8)}
+                    onPointerLeave={resetTilt}
+                  >
+                    <span className="project-card-top">
+                      <span>NO. {project.number}</span>
+                      <span className="project-open">↗</span>
+                    </span>
 
-                  <span className="project-image">
-                    <span className="image-orbit orbit-project" />
-                    <img
-                      className="project-art-image"
-                      src={project.image}
-                      alt={project.title}
-                      loading="lazy"
-                    />
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        position: "absolute",
-                        right: "17%",
-                        top: "18%",
-                        color: "#b294c5",
-                        fontSize: "22px",
-                      }}
-                    >
-                      ✦
+                    <span className="project-image">
+                      <span className="image-orbit orbit-project" />
+                      <img
+                        className="project-art-image"
+                        src={project.image}
+                        alt={project.title}
+                        loading="lazy"
+                      />
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          right: "17%",
+                          top: "18%",
+                          color: "#b294c5",
+                          fontSize: "22px",
+                        }}
+                      >
+                        ✦
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          position: "absolute",
+                          left: "15%",
+                          bottom: "15%",
+                          color: "#c19ab8",
+                          fontSize: "18px",
+                        }}
+                      >
+                        ✧
+                      </span>
                     </span>
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        position: "absolute",
-                        left: "15%",
-                        bottom: "15%",
-                        color: "#c19ab8",
-                        fontSize: "18px",
-                      }}
-                    >
-                      ✧
-                    </span>
-                  </span>
 
-                  <span className="project-copy">
-                    <span className="project-category">{project.category}</span>
-                    <span
-                      style={{
-                        fontFamily: "var(--display)",
-                        fontSize: "25px",
-                        fontWeight: 500,
-                        letterSpacing: "-.035em",
-                        margin: "12px 0 8px",
-                      }}
-                    >
-                      {project.title}
+                    <span className="project-copy">
+                      <span className="project-category">{project.category}</span>
+                      <span
+                        style={{
+                          fontFamily: "var(--display)",
+                          fontSize: "25px",
+                          fontWeight: 500,
+                          letterSpacing: "-.035em",
+                          margin: "12px 0 8px",
+                        }}
+                      >
+                        {project.title}
+                      </span>
+                      <span className="project-description-text">
+                        {project.description}
+                      </span>
+                      <span className="project-read-more">
+                        Take a closer look <ArrowIcon />
+                      </span>
                     </span>
-                    <span className="project-description-text">
-                      {project.description}
-                    </span>
-                    <span className="project-read-more">
-                      Take a closer look <ArrowIcon />
-                    </span>
-                  </span>
-                </button>
+                  </button>
                 </div>
               ))}
             </div>
@@ -804,123 +737,7 @@ function App() {
         </section>
 
         {/* ROUTE MAP */}
-        <section className="route-section section-padding" id="route">
-          <div className="section-wrap">
-            <div className="section-label" data-reveal>
-              <span>03 / FIND YOUR WAY</span>
-              <span>FOLLOW THE LITTLE LIGHTS</span>
-            </div>
-
-            <div className="route-layout">
-              <div className="route-copy" data-reveal>
-                <span className="route-label">
-                  <span className="route-live-dot" />
-                  YOUR OWN LITTLE ADVENTURE
-                </span>
-
-                <h2>
-                  Where will
-                  <br />
-                  you <em>wander?</em>
-                </h2>
-
-                <p>
-                  There&apos;s no map for the things that make you feel
-                  alive. Just a few little signposts to help you begin.
-                  Pick a path, follow a star and see where you end up.
-                </p>
-
-                <div className="route-stats">
-                  <div>
-                    <strong>01</strong>
-                    <span>TAKE A BREATH</span>
-                  </div>
-                  <div>
-                    <strong>02</strong>
-                    <span>FOLLOW A STAR</span>
-                  </div>
-                  <div>
-                    <strong>∞</strong>
-                    <span>KEEP WANDERING</span>
-                  </div>
-                </div>
-
-                <button
-                  className="button button-outline"
-                  onClick={() => scrollToSection("about")}
-                >
-                  Find your next stop <ArrowIcon />
-                </button>
-              </div>
-
-              <div className="route-map" data-reveal aria-label="Illustrated map of a dreamy village">
-                <div className="map-sky-glow" />
-                <span className="map-constellation constellation-a">· ✦ · ✧</span>
-                <span className="map-constellation constellation-b">✧ · ✦ ·</span>
-                <span className="map-moon" aria-hidden="true">
-                  <MapMoon />
-                </span>
-
-                <svg
-                  className="route-path"
-                  viewBox="0 0 500 415"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M45 280 C85 270, 115 210, 170 230 S235 285, 275 205 S350 130, 435 100"
-                    fill="none"
-                    className="route-path-base"
-                  />
-                  <path
-                    d="M45 280 C85 270, 115 210, 170 230 S235 285, 275 205 S350 130, 435 100"
-                    fill="none"
-                    className="route-path-runner"
-                  />
-                </svg>
-
-                <div className="map-roof roof-one">
-                  <span className="roof-chimney" />
-                  <span className="roof-window" />
-                  <span className="roof-window" />
-                </div>
-                <div className="map-roof roof-two">
-                  <span className="roof-chimney" />
-                  <span className="roof-window" />
-                  <span className="roof-window" />
-                </div>
-                <div className="map-roof roof-three">
-                  <span className="roof-chimney" />
-                  <span className="roof-window" />
-                  <span className="roof-window" />
-                </div>
-
-                <div className="map-stop stop-one">
-                  <span>01</span>
-                  <small>THE BEGINNING</small>
-                </div>
-                <div className="map-stop stop-two">
-                  <span>02</span>
-                  <small>THE DREAM GARDEN</small>
-                </div>
-                <div className="map-stop stop-three">
-                  <span>03</span>
-                  <small>STARLIGHT HILL</small>
-                </div>
-
-                <span className="map-flying-star">✦</span>
-
-                <div className="map-map-label">
-                  <span className="map-pin">⌖</span>
-                  <span>
-                    <strong>Somewhere magical</strong>
-                    <small>Just beyond your imagination</small>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <RouteMap moon={<MapMoon />} onNext={() => scrollToSection("about")} />
 
         {/* ABOUT PIP */}
         <section className="about-section" id="about">
@@ -934,13 +751,11 @@ function App() {
                 }}
               >
                 <div style={{ width: "100%", aspectRatio: "1", padding: "6%" }}>
-                  
-                <img
-                 src="/pip_portrait.png"
-                alt="Pip, the little dreamer"
-                className="about-art-image"
-                />
-
+                  <img
+                    src="/pip_portrait.png"
+                    alt="Pip, the little dreamer"
+                    className="about-art-image"
+                  />
                 </div>
               </div>
               <span className="about-sparkle sparkle-one">✦</span>
@@ -1061,7 +876,8 @@ function App() {
       {/* PROJECT DETAIL MODAL */}
       {selectedProject && (
         <div
-          className="modal-backdrop"
+          className={`modal-backdrop ${selectedProject.title === "Nightlight Collection" ? "lights-backdrop" : ""}`}
+          style={{ "--glow": glow } as CSSProperties}
           onClick={() => setSelectedProject(null)}
           role="presentation"
         >
@@ -1103,15 +919,25 @@ function App() {
               {selectedProject.title === "The Lullaby Lab" && (
                 <LullabyLab soundEnabled={soundOn} />
               )}
+              {selectedProject.title === "Nightlight Collection" && (
+                <Nightlights soundEnabled={soundOn} onGlow={setGlow} />
+              )}
               <div className="modal-note">
                 <span>✧</span>
                 {selectedProject.note}
               </div>
               <button
                 className="button button-primary"
-                onClick={() => setSelectedProject(null)}
+                onClick={() => {
+                  const toRoute = selectedProject.title === "Dream Delivery Routes";
+                  setSelectedProject(null);
+                  if (toRoute) window.setTimeout(() => scrollToSection("route"), 60);
+                }}
               >
-                Back to the little things <ArrowIcon />
+                {selectedProject.title === "Dream Delivery Routes"
+                  ? "Follow my route"
+                  : "Back to the little things"}{" "}
+                <ArrowIcon />
               </button>
             </div>
           </section>
