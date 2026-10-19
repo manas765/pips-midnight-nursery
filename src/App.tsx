@@ -1,4 +1,5 @@
 import { MOOD_INFO, nextMood, type Mood } from "./mood";
+import { GrowthChart } from "./components/GrowthChart";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { isMuted, setMuted, subscribe } from "./audio";
 import { useClickChimes } from "./useClickChimes";
@@ -124,6 +125,7 @@ function App() {
         <Story />
         <Projects onSelect={setSelectedProject} />
         <RouteMap onScrollTo={scrollToSection} />
+        <GrowthChart />
         <About />
         <GuestbookSection onOpen={() => setGuestbookOpen(true)} />
       </main>
