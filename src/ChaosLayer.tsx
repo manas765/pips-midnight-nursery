@@ -2,12 +2,12 @@ import { useViewport } from "./useViewport";
 import "./chaos.css";
 
 const STICKERS = [
-  { text: "☾ zzz", cls: "s1" },
-  { text: "✦ new!", cls: "s2" },
-  { text: "♡ cozy", cls: "s3" },
-  { text: "wobbly", cls: "s4" },
-  { text: "★ 100% dreams", cls: "s5" },
-  { text: "shh...", cls: "s6" },
+  { text: "☾", label: "moon", cls: "s1" },
+  { text: "✦", label: "star", cls: "s2" },
+  { text: "♡", label: "heart", cls: "s3" },
+  { text: "★", label: "big star", cls: "s4" },
+  { text: "✧", label: "sparkle", cls: "s5" },
+  { text: "☁", label: "cloud", cls: "s6" },
 ];
 
 const RIBBON = [

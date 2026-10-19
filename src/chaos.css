@@ -19,15 +19,16 @@ html[data-vp] {
 
 .chaos-sticker {
   position: absolute;
-  padding: 7px 13px;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
   border: 2px solid var(--chaos-ink);
-  border-radius: 999px;
+  border-radius: 50%;
   background: #fff1a8;
   color: var(--chaos-ink);
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-size: 22px;
+  line-height: 1;
   box-shadow: 3px 3px 0 var(--chaos-shadow);
   opacity: 0.92;
   animation: chaos-bob 5s ease-in-out infinite;
@@ -35,7 +36,7 @@ html[data-vp] {
 
 /* Stickers peek in from the screen edges so they never cover page text.
    --peek is how much of each sticker is visible. */
-.chaos-sticker { --peek: 34px; }
+.chaos-sticker { --peek: 38px; }
 .chaos-sticker.s1 { top: 22%; left: 0; translate: calc(-100% + var(--peek)); rotate: -12deg; background: #fff1a8; }
 .chaos-sticker.s2 { top: 38%; right: 0; translate: calc(100% - var(--peek)); rotate: 9deg; background: #ffd1e3; animation-delay: -1s; }
 .chaos-sticker.s3 { top: 66%; left: 0; translate: calc(-100% + var(--peek)); rotate: 7deg; background: #d6e4ff; animation-delay: -2s; }
@@ -48,19 +49,19 @@ html[data-vp] {
   50% { transform: translateY(-6px); }
 }
 
-/* Small tablets have almost no side margin, so no stickers there */
-@media (max-width: 759px) {
+/* Below 1024px the side margin is too small for stickers (the marquee stays) */
+@media (max-width: 1023px) {
   .chaos-stickers { display: none; }
 }
 
 /* Narrow desktops: keep only stickers that sit in the margins */
 @media (max-width: 1279px) {
-  .chaos-sticker { --peek: 20px; }
+  .chaos-sticker { --peek: 30px; }
   .chaos-sticker.s4, .chaos-sticker.s5, .chaos-sticker.s6 { display: none; }
 }
 
 /* Tablet: smaller stickers pushed to the edges */
-html[data-vp="tablet"] .chaos-sticker { --peek: 18px; font-size: 10px; padding: 5px 10px; opacity: 0.85; }
+html[data-vp="tablet"] .chaos-sticker { --peek: 28px; width: 38px; height: 38px; font-size: 18px; opacity: 0.9; }
 
 .chaos-ribbon {
   overflow: hidden;
