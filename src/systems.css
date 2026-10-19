@@ -1,0 +1,25 @@
+/* Person 3: systems, side quests */
+
+.sparkle-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sparkle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 1;
+  pointer-events: none;
+  will-change: transform, opacity;
+  text-shadow: 0 0 8px currentColor;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .sparkle-trail {
+    display: none;
+  }
+}

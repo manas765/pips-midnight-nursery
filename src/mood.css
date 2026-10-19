@@ -1,0 +1,201 @@
+/* Person 1: moods (dreamy = default look, sleepy = cool blue night, dawn = existing .theme-dawn) */
+
+/* ---------- Sleepy palette ---------- */
+.site-shell.mood-sleepy:not(.theme-dawn) {
+  --night: #0e1429;
+  --night-2: #161d3a;
+  --polish-night: #0e1429;
+  --pip-night: #0e1429;
+  background:
+    radial-gradient(ellipse at 78% 10%, rgba(76, 104, 176, 0.16), transparent 38%),
+    radial-gradient(ellipse at 10% 44%, rgba(60, 84, 150, 0.12), transparent 34%),
+    #0e1429;
+}
+
+.site-shell.mood-sleepy .announcement-bar {
+  background: #b9c8ee;
+  color: #1f2a4d;
+}
+
+.site-shell.mood-sleepy .announcement-bar .star-glyph {
+  color: #4f66a8;
+}
+
+.site-shell.mood-sleepy .intro-strip {
+  background: #141c3a;
+}
+
+.site-shell.mood-sleepy .route-section {
+  background: #141b3a;
+}
+
+.site-shell.mood-sleepy .about-section {
+  background: #dbe2f3;
+}
+
+.site-shell.mood-sleepy .guestbook-card,
+.site-shell.mood-sleepy .secret-modal {
+  background: #32407a;
+}
+
+.site-shell.mood-sleepy .hero h1 em {
+  background-image: linear-gradient(115deg, #a9c4ff 5%, #d3c8ff 52%, #8fb0f0 95%);
+}
+
+.site-shell.mood-sleepy .heading-period {
+  color: #9db8f5;
+}
+
+.site-shell.mood-sleepy .hero-art-halo {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(111, 143, 220, 0.26) 0%,
+    rgba(90, 115, 190, 0.1) 45%,
+    transparent 72%
+  );
+}
+
+.site-shell.mood-sleepy .utility-button {
+  background: rgba(16, 22, 46, 0.94);
+}
+
+.site-shell.mood-sleepy .hero-stamp {
+  box-shadow: 0 0 0 5px #0e1429, 0 0 0 6px rgba(243, 226, 232, 0.5);
+}
+
+/* ---------- Pip's expressions ---------- */
+
+/* Sleepy: droopy lids (colour comes from the forehead, sizes are native px of the 896 x 1090 picture) */
+.pip-lid {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  translate: -50% -50%;
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 0.5s ease;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 42%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 42%);
+}
+
+.pip-lid-left {
+  left: 41.8%;
+  top: 36.5%;
+  width: 11.16cqw;
+  height: 9.15cqw;
+  background: linear-gradient(to bottom, #e2d8d2, #ded0c9);
+}
+
+.pip-lid-right {
+  left: 60.5%;
+  top: 32.8%;
+  width: 11.05cqw;
+  height: 8.93cqw;
+  background: linear-gradient(to bottom, #f6f1ea, #f1e4dc);
+}
+
+.pip-stage.pip-mood-sleepy .pip-lid {
+  transform: scaleY(1);
+  filter: brightness(0.95) saturate(0.95);
+}
+
+.pip-stage.pip-mood-sleepy .pip-img {
+  filter: brightness(0.95) saturate(0.95);
+}
+
+.pip-stage.pip-mood-sleepy .pip-glint {
+  opacity: 0.85;
+}
+
+.pip-zzz {
+  position: absolute;
+  left: 66%;
+  top: 4%;
+  color: #cdd8ff;
+  font-family: var(--display);
+  font-size: max(16px, 5cqw);
+  line-height: 1;
+  letter-spacing: 0.15em;
+  pointer-events: none;
+  animation: pip-zzz 3.2s ease-in-out infinite;
+}
+
+@keyframes pip-zzz {
+  0% {
+    opacity: 0;
+    transform: translate(0, 8px) scale(0.8);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(10px, -22px) scale(1.15);
+  }
+}
+
+/* Dreamy: slow twinkling pupils and two drifting sparkles */
+.pip-stage.pip-mood-dreamy .pip-glint {
+  animation: pip-dream-glint 3.2s ease-in-out infinite;
+}
+
+.pip-dream {
+  position: absolute;
+  color: #f4d9ff;
+  font-size: max(14px, 4cqw);
+  line-height: 1;
+  pointer-events: none;
+  text-shadow: 0 0 14px rgba(236, 191, 244, 0.7);
+  animation: pip-dream-drift 4s ease-in-out infinite;
+}
+
+@keyframes pip-dream-glint {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.3;
+  }
+}
+
+@keyframes pip-dream-drift {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-8px) rotate(14deg);
+  }
+}
+
+/* Dawn: wide bright eyes */
+.pip-stage.pip-mood-dawn .pip-glint {
+  scale: 1.35;
+}
+
+.pip-stage.pip-mood-dawn .pip-img {
+  filter: brightness(1.05) saturate(1.1);
+}
+
+/* Secret star: Pip wakes up, so lids open and the dreamy twinkle gives way to the big one */
+.pip-stage.is-awake .pip-lid {
+  transform: scaleY(0);
+}
+
+.pip-stage.is-awake .pip-zzz {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pip-zzz,
+  .pip-dream,
+  .pip-stage.pip-mood-dreamy .pip-glint {
+    animation: none;
+  }
+  .pip-lid {
+    transition: none;
+  }
+}
