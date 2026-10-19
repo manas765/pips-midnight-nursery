@@ -19,7 +19,7 @@ export const projects: Project[] = [
     title: "The Cloud Keeper",
     description: "A little collection of dreams, clouds and things worth remembering.",
     symbol: "☁️",
-    image: "/pip_avatar_cloud.png",
+    image: "/pip_avatar_cloud.webp",
     details:
       "The Cloud Keeper is a gentle dream-journaling concept. Collect little moments, save the things you dream about and turn fleeting thoughts into a tiny personal archive.",
     note: "A place for your thoughts to land softly.",
