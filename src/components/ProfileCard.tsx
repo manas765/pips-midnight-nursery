@@ -1,13 +1,13 @@
 import "../hero.css";
 
-const CHIPS = ["Curious", "Sleepy", "A little clumsy", "Easily delighted"];
+const CHIPS = ["Curious", "Sleepy", "A little clumsy", "Easily delighted", "Giggly", "Hates silence"];
 
 export function ProfileCard() {
   return (
     <article className="profile-card" aria-label="Pip's profile card">
       <div className="profile-photo">
         <img
-          src="/pip_portrait.png"
+          src="/pip_portrait.webp"
           alt="Pip, a baby skull in a starry nightcap with a pink bow, holding a glowing lantern and a unicorn music box"
           width={682}
           height={1024}

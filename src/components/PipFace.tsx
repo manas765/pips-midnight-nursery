@@ -104,7 +104,7 @@ export function PipFace({ awake, mood }: PipFaceProps) {
         <span ref={bodyRef} className="pip-body">
           <img
             className="pip-img"
-            src="/pip_avatar_cloud.png"
+            src="/pip_avatar_cloud.webp"
             alt="Pip, a baby skull in a starry nightcap with a pink bow, waving from a cloud"
             width={896}
             height={1090}

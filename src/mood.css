@@ -95,7 +95,7 @@
 }
 
 .pip-stage.pip-mood-sleepy .pip-lid {
-  transform: scaleY(1);
+  transform: scaleY(1.5);
   filter: brightness(0.95) saturate(0.95);
 }
 
@@ -108,31 +108,34 @@
 }
 
 .pip-zzz {
-  position: absolute;
-  left: 66%;
-  top: 4%;
-  color: #cdd8ff;
-  font-family: var(--display);
-  font-size: max(16px, 5cqw);
-  line-height: 1;
-  letter-spacing: 0.15em;
-  pointer-events: none;
-  animation: pip-zzz 3.2s ease-in-out infinite;
-}
+    position: absolute;
+    left: 60%;
+    top: 40%;
+    color: #5b6fb8;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: max(18px, 5.5cqw);
+    line-height: 1;
+    letter-spacing: 0.15em;
+    text-shadow: 0 1px 0 #fff, 0 0 10px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    animation: pip-zzz 3.2s ease-in-out infinite;
+    }
 
-@keyframes pip-zzz {
-  0% {
-    opacity: 0;
-    transform: translate(0, 8px) scale(0.8);
-  }
-  35% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(10px, -22px) scale(1.15);
-  }
-}
+   @keyframes pip-zzz {
+     0% {
+       opacity: 0;
+       transform: translate(0, 8px) scale(0.8);
+     }
+     20%,
+     70% {
+       opacity: 1;
+     }
+     100% {
+       opacity: 0;
+       transform: translate(10px, -22px) scale(1.15);
+     }
+   }
 
 /* Dreamy: slow twinkling pupils and two drifting sparkles */
 .pip-stage.pip-mood-dreamy .pip-glint {
