@@ -20,7 +20,7 @@ export const projects: Project[] = [
     title: "The Lullaby Lab",
     description: "I built a little music box and tucked my first lullaby inside.",
     symbol: "♫",
-    image: "/pip_lullaby_box.png",
+    image: "/pip_lullaby_box.webp",
     details:
       "Welcome to my Lullaby Lab! I wind my little music box, arrange sleepy notes, and stitch them into melodies for dreamers across the night sky.",
     note: "Every dream deserves its own little tune.",
@@ -31,7 +31,7 @@ export const projects: Project[] = [
     title: "Nightlight Collection",
     description: "I designed sleepy little lights to make bedtime feel cozy.",
     symbol: "✦",
-    image: "/pip_dream_lantern.png",
+    image: "/pip_dream_lantern.webp",
     details:
       "These are my handmade dream lights! Each lantern glows with a little warmth, helping the nighttime feel softer. Pick a light and let your own tiny corner glow.",
     note: "A little light goes a long way.",
