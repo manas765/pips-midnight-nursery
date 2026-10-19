@@ -1,7 +1,7 @@
-import type { CSSProperties } from "react";
-import { ArrowIcon, handleTilt, resetTilt } from "../lib";
 
-export type Project = {
+import "./projects.css";
+
+export interface Project {
   number: string;
   category: string;
   title: string;
@@ -10,159 +10,96 @@ export type Project = {
   image: string;
   details: string;
   note: string;
-};
+}
 
-export const projects: Project[] = [
+  export const projects: Project[] = [
   {
     number: "01",
-    category: "DREAM JOURNAL",
-    title: "The Cloud Keeper",
-    description: "A little collection of dreams, clouds and things worth remembering.",
-    symbol: "☁️",
-    image: "/pip_avatar_cloud.webp",
+    category: "LULLABY LAB",
+    title: "The Lullaby Lab",
+    description: "I built a little music box and tucked my first lullaby inside.",
+    symbol: "♫",
+    image: "/pip_lullaby_box.webp",
     details:
-      "The Cloud Keeper is a gentle dream-journaling concept. Collect little moments, save the things you dream about and turn fleeting thoughts into a tiny personal archive.",
-    note: "A place for your thoughts to land softly.",
+      "Welcome to my Lullaby Lab! I wind my little music box, arrange sleepy notes, and stitch them into melodies for dreamers across the night sky.",
+    note: "Every dream deserves its own little tune.",
   },
   {
     number: "02",
-    category: "CREATIVE PLAY",
-    title: "Moonlight Garden",
-    description: "A whimsical little world where every night brings a new discovery.",
-    symbol: "🌷",
-    image: "/pip_lullaby_box.webp",
+    category: "NIGHTLIGHT COLLECTION",
+    title: "Nightlight Collection",
+    description: "I designed sleepy little lights to make bedtime feel cozy.",
+    symbol: "✦",
+    image: "/pip_dream_lantern.webp",
     details:
-      "Moonlight Garden explores a magical garden that comes alive after sunset. Discover tiny details, follow glowing paths and find something new every time you visit.",
-    note: "For curious minds and midnight wanderers.",
+      "These are my handmade dream lights! Each lantern glows with a little warmth, helping the nighttime feel softer. Pick a light and let your own tiny corner glow.",
+    note: "A little light goes a long way.",
   },
   {
     number: "03",
-    category: "LITTLE STORIES",
-    title: "The Star Collector",
-    description: "A story about small wonders, faraway places and finding your own light.",
-    symbol: "🌟",
-    image: "/pip_dream_lantern.webp",
+    category: "DREAM DELIVERY",
+    title: "Dream Delivery Routes",
+    description: "I fly freshly stitched dreams over rooftops to my sleepy neighbours.",
+    symbol: "☁",
+    image: "/pip_avatar_cloud.webp",
     details:
-      "The Star Collector is a story concept about collecting moments of wonder. Every star represents a memory, a lesson or a small act of kindness.",
-    note: "Every little light has a story.",
+      "I'm Pip, Junior Dream Engineer, and every night I deliver dreams across the village. Follow my winding route past sleepy rooftops and glowing windows. There's always one more dream waiting!",
+    note: "Dream delivery in progress. Please stay cozy.",
   },
 ];
 
-type ProjectsProps = {
+
+interface ProjectsProps {
   onSelect: (project: Project) => void;
-};
+}
 
 export function Projects({ onSelect }: ProjectsProps) {
   return (
-    <section className="work-section section-padding" id="work">
-      <div className="section-wrap">
-        <div className="section-label" data-reveal>
-          <span>02 / LITTLE THINGS</span>
-          <span>SMALL WORLDS, ENDLESS POSSIBILITIES</span>
-        </div>
+    <section className="work-section" id="work">
+      <div className="section-heading">
+        <p className="eyebrow">A LITTLE MAGIC AFTER DARK</p>
+        <h2>Things I made under the moonlight</h2>
+        <p>Every little project begins with a dream. Here are a few of mine.</p>
+      </div>
 
-        <div className="work-heading-grid" data-reveal>
-          <h2>
-            A shelf full
-            <br />
-            of <em>wonder.</em>
-          </h2>
-
-          <p className="section-intro">
-            Little ideas, dreamy places and stories waiting to be
-            discovered. Pick whichever one calls your name.
-          </p>
-        </div>
-
-        <div className="project-grid">
-          {projects.map((project, index) => (
-            <div
-              className="project-reveal"
-              data-reveal
-              key={project.number}
-              style={{
-                "--reveal-delay": `${index * 120}ms`,
-              } as CSSProperties}
+      <div className="projects-grid">
+        {projects.map((project) => (
+          <article className="project-card" key={project.number}>
+            <button
+              type="button"
+              className="project-card-button"
+              onClick={() => onSelect(project)}
+              aria-label={`Explore ${project.title}`}
             >
-              <button
-                className={`project-card project-card-${project.number.slice(-1)}`}
-                onClick={() => onSelect(project)}
-                onPointerMove={(event) => handleTilt(event, 8)}
-                onPointerLeave={resetTilt}
-              >
-                <span className="project-card-top">
-                  <span>NO. {project.number}</span>
-                  <span className="project-open">↗</span>
+              <div className="project-image-wrap">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="project-image"
+                  loading="lazy"
+                  onError={(event) => {
+                    const image = event.currentTarget;
+                    if (image.src.endsWith(".webp")) {
+                      image.src = project.image.replace(/\.webp$/, ".png");
+                    }
+                  }}
+                />
+                <span className="project-symbol" aria-hidden="true">
+                  {project.symbol}
                 </span>
+              </div>
 
-                <span className="project-image">
-                  <span className="image-orbit orbit-project" />
-
-                  <img
-                    className="project-art-image"
-                    src={project.image}
-                    alt={project.title}
-                    loading="lazy"
-                  />
-
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      right: "17%",
-                      top: "18%",
-                      color: "#b294c5",
-                      fontSize: "22px",
-                    }}
-                  >
-                    ✦
-                  </span>
-
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      left: "15%",
-                      bottom: "15%",
-                      color: "#c19ab8",
-                      fontSize: "18px",
-                    }}
-                  >
-                    ✧
-                  </span>
+              <div className="project-card-content">
+                <p className="project-category">{project.category}</p>
+                <h3>{project.title}</h3>
+                <p className="project-description">{project.description}</p>
+                <span className="project-link">
+                  Explore project <span aria-hidden="true">↗</span>
                 </span>
-
-                <span className="project-copy">
-                  <span className="project-category">{project.category}</span>
-
-                  <span
-                    style={{
-                      fontFamily: "var(--display)",
-                      fontSize: "25px",
-                      fontWeight: 500,
-                      letterSpacing: "-.035em",
-                      margin: "12px 0 8px",
-                    }}
-                  >
-                    {project.title}
-                  </span>
-
-                  <span className="project-description-text">
-                    {project.description}
-                  </span>
-
-                  <span className="project-read-more">
-                    Take a closer look <ArrowIcon />
-                  </span>
-                </span>
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <p className="work-caption" data-reveal>
-          <span>✦</span> Made for curious minds and wonderfully wandering hearts <span>✦</span>
-        </p>
+              </div>
+            </button>
+          </article>
+        ))}
       </div>
     </section>
   );
