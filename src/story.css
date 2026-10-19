@@ -1,0 +1,250 @@
+/* Person 1: scroll-driven origin story */
+
+.pip-story {
+  position: relative;
+  height: 420vh;
+  height: 420svh;
+}
+
+.pip-story-sticky {
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100vh;
+  height: 100svh;
+  padding: 72px 20px 20px;
+  overflow: hidden;
+}
+
+.pip-story-head {
+  text-align: center;
+}
+
+.pip-story-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+}
+
+.pip-story .pip-story-title {
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  line-height: 1.1;
+}
+
+.pip-scenes {
+  display: grid;
+  width: 100%;
+  max-width: 720px;
+  justify-items: center;
+}
+
+.pip-scene {
+  grid-area: 1 / 1;
+  width: 100%;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+
+.pip-scene.is-active {
+  opacity: 1;
+  transform: none;
+}
+
+.pip-scene.is-past {
+  transform: translateY(-24px);
+}
+
+.pip-scene-art {
+  display: block;
+  width: min(100%, 58svh);
+  aspect-ratio: 4 / 3;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(20, 10, 40, 0.35);
+}
+
+.pip-scene figcaption {
+  max-width: 30ch;
+  min-height: 3.4em;
+  margin: 14px auto 0;
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+  line-height: 1.35;
+  text-align: center;
+}
+
+/* Dots */
+.pip-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.pip-dot {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.pip-dot::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 6px;
+  background: currentColor;
+  opacity: 0.3;
+  transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.pip-dot.is-active::before {
+  width: 24px;
+  opacity: 1;
+}
+
+.pip-dot:focus-visible {
+  outline: 3px solid #f0b95c;
+  outline-offset: 0;
+  border-radius: 8px;
+}
+
+/* Scene motion: only the active scene animates, so it replays on re-entry */
+.pip-scene.is-active .story-twinkle {
+  animation: story-twinkle 2.4s ease-in-out infinite;
+}
+
+.pip-scene.is-active .story-float {
+  animation: story-float 3s ease-in-out infinite;
+}
+
+.pip-scene.is-active .story-fall {
+  animation: story-fall 1.8s cubic-bezier(0.4, 0, 0.6, 1) both,
+    story-glow 1.6s ease-in-out 1.8s infinite;
+}
+
+.pip-scene.is-active .story-glint {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-glint 1.2s ease-in-out 1.8s infinite;
+}
+
+.pip-scene.is-active .story-lit {
+  animation: story-lit 3s ease-in-out infinite;
+}
+
+.pip-scene.is-active .story-dash {
+  stroke-dasharray: 6 8;
+  animation: story-dash 2.4s linear infinite;
+}
+
+@keyframes story-twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes story-float {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-22px);
+  }
+}
+
+@keyframes story-fall {
+  from {
+    opacity: 0;
+    transform: translate(90px, -120px) rotate(-120deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes story-glow {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes story-glint {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.7);
+  }
+}
+
+@keyframes story-lit {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes story-dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pip-scene {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+  .pip-scene.is-active * {
+    animation: none !important;
+  }
+}
+
+/* Short phones in landscape: shrink the art so the caption stays in view */
+@media (max-height: 560px) {
+  .pip-story-sticky {
+    padding-top: 56px;
+    gap: 6px;
+  }
+  .pip-scene-art {
+    width: min(100%, 44svh);
+  }
+}
