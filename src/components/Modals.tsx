@@ -1,5 +1,16 @@
+import { useEffect } from "react";
 import { ArrowIcon } from "../lib";
 import type { Project } from "./Projects";
+
+function useEscape(onClose: () => void) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+}
 
 type ProjectModalProps = {
   project: Project;
@@ -7,6 +18,8 @@ type ProjectModalProps = {
 };
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
+  useEscape(onClose);
+
   return (
     <div className="modal-backdrop" onClick={onClose} role="presentation">
       <section
@@ -63,6 +76,8 @@ type SecretModalProps = {
 };
 
 export function SecretModal({ onClose }: SecretModalProps) {
+  useEscape(onClose);
+
   return (
     <div
       className="modal-backdrop secret-backdrop"

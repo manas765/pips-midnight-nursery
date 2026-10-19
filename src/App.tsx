@@ -19,7 +19,22 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [secretOpen, setSecretOpen] = useState(false);
-  const [mood, setMood] = useState<Mood>("dreamy");
+  const [mood, setMood] = useState<Mood>(() => {
+     try {
+      const saved = sessionStorage.getItem("pip-mood");
+       return saved === "sleepy" || saved === "dawn" || saved === "dreamy" ? saved : "dreamy";
+      } catch {
+       return "dreamy";
+      }
+  });
+  useEffect(() => {
+    try {
+      sessionStorage.setItem("pip-mood", mood);
+     } catch {
+      /* storage blocked, ignore */
+    }
+  }, [mood]);
+
   const [guestbookOpen, setGuestbookOpen] = useState(false);
   const muted = useSyncExternalStore(subscribe, isMuted);
   useClickChimes();
