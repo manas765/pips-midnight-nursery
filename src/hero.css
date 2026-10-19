@@ -1,0 +1,284 @@
+/* Person 1: Pip hero, eyes, profile card */
+
+/* Make sure the glare layer never blocks clicks on Pip */
+.hero-art-card .card-glare {
+  pointer-events: none;
+}
+
+.pip-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.pip-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pip-stage:focus-visible {
+  outline: 3px solid #f0b95c;
+  outline-offset: -4px;
+}
+
+/* The body is the size container, so cqw units track the picture width */
+.pip-body {
+  position: relative;
+  display: block;
+  container-type: inline-size;
+  transform-origin: 50% 100%;
+}
+
+.pip-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Eyes: a soft dark patch covers the painted glint, a live glint moves on top.
+   Positions are percentages of the 896 x 1090 picture. */
+.pip-eye {
+  position: absolute;
+  width: 7.5cqw;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.pip-eye-left {
+  left: 44.2%;
+  top: 40.4%;
+  background: radial-gradient(
+    circle closest-side,
+    #4a2f2a 0 62%,
+    rgba(74, 47, 42, 0) 100%
+  );
+}
+
+.pip-eye-right {
+  left: 58.4%;
+  top: 37.7%;
+  background: radial-gradient(
+    circle closest-side,
+    #573b35 0 62%,
+    rgba(87, 59, 53, 0) 100%
+  );
+}
+
+.pip-glint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.4cqw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #ffefb8;
+  box-shadow: 0 0 1.6cqw 0.5cqw rgba(255, 214, 120, 0.75);
+  transform: translate(
+    calc(-50% + var(--ex, 0) * 1.1cqw),
+    calc(-50% + var(--ey, 0) * 1.1cqw)
+  );
+  transition: transform 0.12s ease-out;
+}
+
+/* Awake moment (secret star) */
+.pip-stage.is-awake .pip-glint {
+  animation: pip-twinkle 0.9s ease-in-out 4;
+}
+
+.pip-stage.is-awake .pip-img {
+  filter: brightness(1.05) saturate(1.08);
+}
+
+@keyframes pip-twinkle {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.9;
+  }
+}
+
+.pip-spark {
+  position: absolute;
+  color: #f0b95c;
+  font-size: max(14px, 4.5cqw);
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  animation: pip-spark 1.6s ease-out forwards;
+}
+
+@keyframes pip-spark {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.4) rotate(0deg);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-26px) scale(1.2) rotate(40deg);
+  }
+}
+
+/* Pip's speech bubble */
+.pip-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  max-width: 88%;
+  margin: 0;
+  padding: 0.5em 1.1em;
+  border-radius: 999px;
+  background: #fff7e8;
+  color: #4a3550;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(60, 30, 90, 0.22);
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: pip-pop 0.35s ease-out;
+}
+
+@keyframes pip-pop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+/* Hero copy */
+.pip-tagline {
+  max-width: 34ch;
+  margin: 18px 0 8px;
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* Profile card (About section) */
+.profile-slot {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  box-shadow: 0 24px 60px rgba(20, 10, 40, 0.25);
+}
+
+.profile-photo {
+  background: #f8efdf;
+}
+
+.profile-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.profile-body {
+  display: grid;
+  gap: 12px;
+  padding: 20px 22px 24px;
+}
+
+.profile-name {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.profile-role {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.profile-facts {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.profile-facts > div {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 8px;
+}
+
+.profile-facts dt {
+  opacity: 0.65;
+}
+
+.profile-facts dd {
+  margin: 0;
+}
+
+.profile-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profile-chips li {
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  font-size: 0.95rem;
+}
+
+.profile-tagline {
+  margin: 4px 0 0;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pip-glint {
+    transition: none;
+  }
+  .pip-stage.is-awake .pip-glint,
+  .pip-bubble {
+    animation: none;
+  }
+  .pip-spark {
+    display: none;
+  }
+}
