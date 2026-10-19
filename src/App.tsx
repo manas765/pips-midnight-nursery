@@ -2400,29 +2400,61 @@ function resetRoute() {
                     <p>{currentDestination.subtitle}</p>
                     <p>{currentDestination.description}</p>
 
-                    <div className="route-actions">
-                      <button
-                        className="button button-primary"
-                        onClick={completeCurrentStop}
-                        disabled={completedStops.includes(selectedDestination)}
-                      >
-                        {completedStops.includes(selectedDestination)
-                          ? "Stop completed ✓"
-                          : "Deliver this dream"}
-                        {!completedStops.includes(selectedDestination) && (
-                          <ArrowIcon />
-                        )}
-                      </button>
+                    
+<div className="route-actions">
+  <button
+    className="button button-outline"
+    onClick={() =>
+      setSelectedDestination((current) =>
+        Math.max(0, current - 1)
+      )
+    }
+    disabled={selectedDestination === 0}
+  >
+    ← Previous
+  </button>
 
-                      {completedStops.length > 0 && (
-                        <button
-                          className="button button-outline"
-                          onClick={resetRoute}
-                        >
-                          Reset route
-                        </button>
-                      )}
-                    </div>
+  <button
+    className="button button-primary"
+    onClick={completeCurrentStop}
+    disabled={
+      !routeStarted ||
+      completedStops.includes(selectedDestination)
+    }
+  >
+    {completedStops.includes(selectedDestination)
+      ? "Stop completed ✓"
+      : "Deliver this dream"}
+    {!completedStops.includes(selectedDestination) && (
+      <ArrowIcon />
+    )}
+  </button>
+
+  <button
+    className="button button-outline"
+    onClick={() =>
+      setSelectedDestination((current) =>
+        Math.min(destinations.length - 1, current + 1)
+      )
+    }
+    disabled={
+      selectedDestination >= completedStops.length ||
+      selectedDestination >= destinations.length - 1
+    }
+  >
+    Next →
+  </button>
+
+  {(completedStops.length > 0 || routeStarted) && (
+    <button
+      className="button button-outline"
+      onClick={resetRoute}
+    >
+      Reset route
+    </button>
+  )}
+</div>
+
                   </div>
 
                   <div className="route-progress-card">
