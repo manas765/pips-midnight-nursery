@@ -111,7 +111,7 @@ public/               # Pip artwork (WebP and PNG)
 
 - Keyboard friendly: visible focus states, modals close with Escape and keep focus inside.
 - Respects `prefers-reduced-motion` and turns decorative motion off.
-- Lighthouse (mobile): Performance 88, Accessibility 100, Best Practices 96, SEO 100.
+- Lighthouse (mobile): Performance 88, Accessibility 100, Best Practices 100, SEO 100.
 
 ## Credits
 
