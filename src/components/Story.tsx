@@ -196,7 +196,7 @@ export function Story() {
       if (!frame) frame = requestAnimationFrame(update);
     };
 
-    update();
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
