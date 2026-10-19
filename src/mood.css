@@ -81,16 +81,18 @@
 .pip-lid-left {
   left: 41.8%;
   top: 36.5%;
-  width: 11.16cqw;
-  height: 9.15cqw;
+  width: 11.16%;
+  height: auto;
+  aspect-ratio: 11.16 / 9.15;
   background: linear-gradient(to bottom, #e2d8d2, #ded0c9);
 }
 
 .pip-lid-right {
   left: 60.5%;
   top: 32.8%;
-  width: 11.05cqw;
-  height: 8.93cqw;
+  width: 11.05%;
+  height: auto;
+  aspect-ratio: 11.05 / 8.93;
   background: linear-gradient(to bottom, #f6f1ea, #f1e4dc);
 }
 
