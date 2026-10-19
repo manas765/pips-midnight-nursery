@@ -4,6 +4,7 @@ import { isMuted, setMuted, subscribe } from "./audio";
 import { useClickChimes } from "./useClickChimes";
 import SparkleTrail from "./SparkleTrail";
 import Counter from "./Counter";
+import ChaosLayer from "./ChaosLayer";
 import { ArrowIcon } from "./lib";
 import { Hero } from "./components/Hero";
 import { Story } from "./components/Story";
@@ -126,6 +127,8 @@ function App() {
         <About />
         <GuestbookSection onOpen={() => setGuestbookOpen(true)} />
       </main>
+
+      <ChaosLayer />
 
       {/* FOOTER */}
       <footer className="site-footer">

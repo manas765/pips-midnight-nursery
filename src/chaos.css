@@ -1,0 +1,227 @@
+/* Responsive Chaos Mode (Person 3).
+   Driven by useViewport: html[data-vp="phone|tablet|desktop"], --vw, --chaos (0..1).
+   Selectors start with html[data-vp] so they win over earlier stylesheets. */
+
+html[data-vp] {
+  --tilt: calc(var(--chaos, 1) * 2deg);
+  --chaos-shadow: rgba(241, 183, 203, 0.95);
+  --chaos-ink: #2b2140;
+  overflow-x: clip;
+}
+
+/* ---------- Decoration (tablet + desktop) ---------- */
+.chaos-stickers {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+
+.chaos-sticker {
+  position: absolute;
+  padding: 7px 13px;
+  border: 2px solid var(--chaos-ink);
+  border-radius: 999px;
+  background: #fff1a8;
+  color: var(--chaos-ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  box-shadow: 3px 3px 0 var(--chaos-shadow);
+  opacity: 0.92;
+  animation: chaos-bob 5s ease-in-out infinite;
+}
+
+.chaos-sticker.s1 { top: 22%; left: 10px; rotate: -12deg; background: #fff1a8; }
+.chaos-sticker.s2 { top: 38%; right: 10px; rotate: 9deg; background: #ffd1e3; animation-delay: -1s; }
+.chaos-sticker.s3 { top: 66%; left: 10px; rotate: 7deg; background: #d6e4ff; animation-delay: -2s; }
+.chaos-sticker.s4 { top: 80%; right: 10px; rotate: -8deg; background: #d9f5df; animation-delay: -3s; }
+.chaos-sticker.s5 { top: 52%; left: 10px; rotate: -5deg; background: #e5d4ff; animation-delay: -4s; }
+.chaos-sticker.s6 { top: 14%; right: 10px; rotate: 11deg; background: #ffe0b8; animation-delay: -2.5s; }
+
+@keyframes chaos-bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
+}
+
+/* Narrow desktops: keep only stickers that sit in the margins */
+@media (max-width: 1279px) {
+  .chaos-sticker.s4, .chaos-sticker.s5, .chaos-sticker.s6 { display: none; }
+}
+
+/* Tablet: smaller stickers pushed to the edges */
+html[data-vp="tablet"] .chaos-sticker { font-size: 10px; padding: 5px 10px; opacity: 0.8; }
+
+.chaos-ribbon {
+  overflow: hidden;
+  margin: 28px 0 40px;
+  rotate: -1.2deg;
+  scale: 1.04;
+  border-block: 2px solid var(--chaos-ink);
+  background: #f1b7cb;
+  color: var(--chaos-ink);
+  box-shadow: 0 5px 0 var(--chaos-shadow);
+}
+
+.chaos-ribbon-track {
+  display: flex;
+  width: max-content;
+  animation: chaos-marquee 30s linear infinite;
+}
+
+.chaos-ribbon-set {
+  display: flex;
+  flex-shrink: 0;
+  gap: 34px;
+  padding: 12px 17px;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.chaos-ribbon-set b { margin-left: 34px; font-weight: 400; color: #7d5d8e; }
+
+@keyframes chaos-marquee {
+  to { transform: translateX(-50%); }
+}
+
+html[data-vp="tablet"] .chaos-ribbon { margin: 18px 0 28px; }
+html[data-vp="tablet"] .chaos-ribbon-set { font-size: 12px; padding-block: 9px; }
+
+/* ---------- Retro cards: tilted, hard shadows, straighten on hover ---------- */
+html[data-vp="desktop"] .project-card,
+html[data-vp="tablet"] .project-card,
+html[data-vp="desktop"] .profile-card,
+html[data-vp="tablet"] .profile-card {
+  border: 2px solid var(--chaos-ink);
+  box-shadow: 6px 6px 0 var(--chaos-shadow);
+  rotate: calc(var(--tilt) * -1);
+  transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease, rotate .3s ease;
+}
+
+html[data-vp] .project-card:nth-child(even),
+html[data-vp] .project-reveal:nth-child(even) .project-card {
+  rotate: var(--tilt);
+}
+
+html[data-vp="desktop"] .project-card:hover,
+html[data-vp="tablet"] .project-card:hover,
+html[data-vp="desktop"] .profile-card:hover {
+  rotate: 0deg;
+  box-shadow: 9px 9px 0 var(--chaos-shadow);
+}
+
+html[data-vp="desktop"] .guestbook-card,
+html[data-vp="tablet"] .guestbook-card {
+  rotate: calc(var(--tilt) * 0.3);
+  border: 2px solid var(--chaos-ink);
+  box-shadow: 8px 8px 0 var(--chaos-shadow);
+}
+
+/* Retro buttons: hard shadow that squishes on press */
+html[data-vp="desktop"] .button,
+html[data-vp="tablet"] .button,
+html[data-vp="desktop"] .nav-cta,
+html[data-vp="tablet"] .nav-cta {
+  box-shadow: 3px 3px 0 var(--chaos-shadow);
+}
+
+html[data-vp] .button:active,
+html[data-vp] .nav-cta:active {
+  translate: 2px 2px;
+  box-shadow: 1px 1px 0 var(--chaos-shadow);
+}
+
+/* ---------- Phone: stacked, wobbly, thumb-friendly ---------- */
+html[data-vp="phone"] .project-grid,
+html[data-vp="phone"] .work-heading-grid {
+  grid-template-columns: 1fr;
+}
+
+html[data-vp="phone"] .section-wrap {
+  width: calc(100% - 32px);
+}
+
+html[data-vp="phone"] .project-card,
+html[data-vp="phone"] .profile-card,
+html[data-vp="phone"] .guestbook-card {
+  border: 2px solid var(--chaos-ink);
+  box-shadow: 4px 4px 0 var(--chaos-shadow);
+  animation: chaos-wobble 6s ease-in-out infinite;
+}
+
+html[data-vp="phone"] .project-card:nth-child(even),
+html[data-vp="phone"] .project-reveal:nth-child(even) .project-card {
+  animation-delay: -3s;
+}
+
+@keyframes chaos-wobble {
+  0%, 100% { rotate: -0.7deg; }
+  50% { rotate: 0.7deg; }
+}
+
+/* Tap targets of at least 48px */
+html[data-vp="phone"] .button,
+html[data-vp="phone"] .nav-cta,
+html[data-vp="phone"] .mobile-menu-button,
+html[data-vp="phone"] .navigation a {
+  min-height: 48px;
+}
+
+html[data-vp="phone"] .button { box-shadow: 3px 3px 0 var(--chaos-shadow); }
+
+html[data-vp="phone"] .utility-button {
+  min-height: 44px;
+  min-width: 44px;
+  padding-inline: 12px;
+}
+
+/* Icon-only on phones so the fixed buttons cover less of the page */
+html[data-vp="phone"] .utility-button small { display: none; }
+html[data-vp="phone"] .utility-button > span { font-size: 20px; }
+html[data-vp="phone"] .utility-controls { right: 10px; bottom: 10px; }
+
+html[data-vp="phone"] .modal-close {
+  width: 44px;
+  height: 44px;
+  top: 6px;
+  right: 6px;
+}
+
+/* Keep the fixed mood and sound buttons from covering the footer */
+html[data-vp="phone"] .site-footer { padding-bottom: 92px; }
+
+/* Readable text: 16px for body copy, 11px minimum for tiny labels */
+html[data-vp="phone"] .site-shell p,
+html[data-vp="phone"] .site-shell li,
+html[data-vp="phone"] .site-shell label,
+html[data-vp="phone"] .site-shell input,
+html[data-vp="phone"] .site-shell textarea,
+html[data-vp="phone"] .project-description-text,
+html[data-vp="phone"] .project-copy > span:not(.project-category) {
+  font-size: max(16px, 1em);
+}
+
+html[data-vp="phone"] .section-label,
+html[data-vp="phone"] .strip-inner,
+html[data-vp="phone"] .project-card-top,
+html[data-vp="phone"] .project-category,
+html[data-vp="phone"] .announcement-bar,
+html[data-vp="phone"] .guestbook-kicker,
+html[data-vp="phone"] .footer-credit,
+html[data-vp="phone"] .footer-note {
+  font-size: max(11px, 1em);
+}
+
+/* ---------- Reduced motion: keep the look, drop the movement ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .chaos-sticker,
+  .chaos-ribbon-track,
+  html[data-vp="phone"] .project-card,
+  html[data-vp="phone"] .profile-card,
+  html[data-vp="phone"] .guestbook-card {
+    animation: none;
+  }
+}
