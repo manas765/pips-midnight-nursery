@@ -86,10 +86,9 @@ function App() {
         <a
           href="#home"
           className="brand"
-          aria-label="Pip's Midnight Nursery home"
           onClick={closeMobileMenu}
         >
-          <span className="brand-mark">
+          <span className="brand-mark" aria-hidden="true">
             <span className="brand-moon">☾</span>
             <span className="brand-dot">✦</span>
           </span>
