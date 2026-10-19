@@ -1,11 +1,34 @@
+import { useEffect, useRef, useState } from "react";
 import { ArrowIcon, handleTilt, resetTilt } from "../lib";
+import { tone } from "../audio";
+import { PipFace } from "./PipFace";
+import "../hero.css";
 
 type HeroProps = {
   onSecret: () => void;
   onScrollTo: (id: string) => void;
 };
 
+// A soft, slow lullaby hum (only audible when sound is on)
+const HUM = [392, 440, 523.25, 440, 392, 329.63];
+
 export function Hero({ onSecret, onScrollTo }: HeroProps) {
+  const [awake, setAwake] = useState(false);
+  const timers = useRef<number[]>([]);
+
+  useEffect(() => {
+    const list = timers.current;
+    return () => list.forEach((id) => window.clearTimeout(id));
+  }, []);
+
+  function wakePip() {
+    if (awake) return;
+    setAwake(true);
+    HUM.forEach((freq, index) => tone(freq, 0.6, "sine", 0.05, index * 0.38));
+    timers.current.push(window.setTimeout(onSecret, 1800));
+    timers.current.push(window.setTimeout(() => setAwake(false), 5200));
+  }
+
   return (
     <>
       {/* HERO */}
@@ -13,25 +36,25 @@ export function Hero({ onSecret, onScrollTo }: HeroProps) {
         <div className="hero-copy">
           <div className="eyebrow">
             <span className="eyebrow-line" />
-            A TINY UNIVERSE OF ITS OWN
+            THE MIDNIGHT NURSERY
             <span>✦</span>
           </div>
 
-          <p className="hero-pretitle">Hello, little wanderer.</p>
-
           <h1>
-            Pip&apos;s
+            Hi, I&apos;m
             <br />
-            Midnight
-            <br />
-            <em>Nursery</em>
+            <em>Pip</em>
             <span className="heading-period">.</span>
           </h1>
 
+          <p className="hero-pretitle">Junior Dream Engineer</p>
+
+          <p className="pip-tagline">
+            “I build the dreams you fall asleep inside.”
+          </p>
+
           <p className="hero-description">
-            A dreamy little hideaway for curious souls, soft thoughts
-            and the magic hiding in the ordinary. Take a breath.
-            You&apos;re right where you belong.
+            I stitch lullabies into blueprints. Please ignore the wobbling.
           </p>
 
           <div className="hero-actions">
@@ -39,12 +62,12 @@ export function Hero({ onSecret, onScrollTo }: HeroProps) {
               className="button button-primary"
               onClick={() => onScrollTo("story")}
             >
-              Come on in <ArrowIcon />
+              Meet my story <ArrowIcon />
             </button>
 
             <button className="text-link" onClick={() => onScrollTo("work")}>
               <span className="play-symbol">▷</span>
-              Explore the little things
+              See what I&apos;m building
             </button>
           </div>
 
@@ -56,7 +79,7 @@ export function Hero({ onSecret, onScrollTo }: HeroProps) {
             </div>
 
             <span>
-              A little space to <strong>dream out loud.</strong>
+              Hates silence. <strong>Giggles at everything.</strong>
             </span>
           </div>
         </div>
@@ -72,27 +95,23 @@ export function Hero({ onSecret, onScrollTo }: HeroProps) {
           <div className="orbit orbit-two" />
 
           <div className="hero-art-card">
-            <img
-              src="/pip_dream_lantern.png"
-              alt="Pip's magical dream lantern"
-              className="hero-art-image"
-            />
+            <PipFace awake={awake} />
             <div className="card-glare" aria-hidden="true" />
           </div>
 
           <div className="floating-note note-lantern">
             <span className="note-icon">☼</span>
             <span>
-              <strong>A little warmth</strong>
-              <small>For your midnight thoughts</small>
+              <strong>Now stitching</strong>
+              <small>One very wobbly lullaby</small>
             </span>
           </div>
 
           <div className="floating-note note-dream">
             <span className="note-icon note-sparkle">✧</span>
             <span>
-              <strong>Dream something lovely</strong>
-              <small>There is no rush here</small>
+              <strong>Hates silence</strong>
+              <small>So please say hi</small>
             </span>
           </div>
 
@@ -104,7 +123,7 @@ export function Hero({ onSecret, onScrollTo }: HeroProps) {
             className="secret-star"
             aria-label="Discover a secret"
             title="Psst... tap me"
-            onClick={onSecret}
+            onClick={wakePip}
           >
             ✦
           </button>
@@ -128,17 +147,17 @@ export function Hero({ onSecret, onScrollTo }: HeroProps) {
       <div className="intro-strip">
         <div className="strip-inner">
           <span>
-            <i>✦</i> SOFT THOUGHTS
+            <i>✦</i> BLUEPRINTS
           </span>
-          <span>☾ MIDNIGHT MAGIC</span>
+          <span>☾ LULLABIES</span>
           <span>
-            <i>✦</i> LITTLE DISCOVERIES
+            <i>✦</i> NIGHTLIGHTS
           </span>
-          <span>♡ A PLACE TO BELONG</span>
+          <span>♡ DREAM DELIVERIES</span>
           <span>
-            <i>✦</i> SOFT THOUGHTS
+            <i>✦</i> BLUEPRINTS
           </span>
-          <span>☾ MIDNIGHT MAGIC</span>
+          <span>☾ LULLABIES</span>
         </div>
       </div>
     </>

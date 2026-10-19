@@ -86,24 +86,23 @@ export function SecretModal({ onClose }: SecretModalProps) {
 
         <div className="secret-constellation">✧ · ✦ · ✧ · ✦ · ✧</div>
         <div className="secret-moon">☾</div>
-        <span className="guestbook-kicker">YOU FOUND A LITTLE SECRET</span>
+        <span className="guestbook-kicker">YOU WOKE ME UP</span>
 
         <h2 id="secret-title">
-          A wish for <em>you.</em>
+          You found my <em>wish star.</em>
         </h2>
 
         <p>
-          May you find a little magic in an ordinary day, a little
-          peace in a noisy world, and a reason to smile when you
-          least expect it.
+          It fell into my nightcap one night and has been humming ever
+          since. I hum along because I hate silence. Hehe. Keep it close.
         </p>
 
         <div className="secret-signature">
-          Keep this close, <strong>little wanderer.</strong>
+          Sleep tight, <strong>Pip</strong> ✧
         </div>
 
         <button className="button button-light" onClick={onClose}>
-          I&apos;ll remember that ✦
+          Hehe, okay ✦
         </button>
       </section>
     </div>
