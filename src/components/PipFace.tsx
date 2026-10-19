@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { play } from "../audio";
+import { MOOD_INFO, type Mood } from "../mood";
 import "../hero.css";
+import "../mood.css";
 
 const HINT = "Tap me. I giggle at everything.";
 const GIGGLES = [
@@ -24,13 +26,22 @@ const SPARKS: Array<[number, number, string, number]> = [
 
 type PipFaceProps = {
   awake: boolean;
+  mood: Mood;
 };
 
-export function PipFace({ awake }: PipFaceProps) {
+export function PipFace({ awake, mood }: PipFaceProps) {
   const stageRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLSpanElement>(null);
   const tickles = useRef(0);
   const [line, setLine] = useState(HINT);
+  const shownMood = useRef(mood);
+
+  // Pip says something whenever the mood changes (not on first load)
+  useEffect(() => {
+    if (shownMood.current === mood) return;
+    shownMood.current = mood;
+    setLine(MOOD_INFO[mood].line);
+  }, [mood]);
 
   // Eye tracking: mouse only, off for touch and reduced motion
   useEffect(() => {
@@ -86,7 +97,7 @@ export function PipFace({ awake }: PipFaceProps) {
       <button
         ref={stageRef}
         type="button"
-        className={`pip-stage ${awake ? "is-awake" : ""}`}
+        className={`pip-stage pip-mood-${mood} ${awake ? "is-awake" : ""}`}
         onClick={tickle}
         aria-label="Tickle Pip"
       >
@@ -105,6 +116,29 @@ export function PipFace({ awake }: PipFaceProps) {
           <span className="pip-eye pip-eye-right" aria-hidden="true">
             <span className="pip-glint" />
           </span>
+
+          <span className="pip-lid pip-lid-left" aria-hidden="true" />
+          <span className="pip-lid pip-lid-right" aria-hidden="true" />
+
+          {mood === "sleepy" && (
+            <span className="pip-zzz" aria-hidden="true">
+              z z z
+            </span>
+          )}
+          {mood === "dreamy" && (
+            <>
+              <span className="pip-dream" aria-hidden="true" style={{ left: "17%", top: "27%" }}>
+                ✦
+              </span>
+              <span
+                className="pip-dream"
+                aria-hidden="true"
+                style={{ left: "80%", top: "30%", animationDelay: "1.4s" }}
+              >
+                ✧
+              </span>
+            </>
+          )}
 
           {awake &&
             SPARKS.map(([left, top, glyph, delay], index) => (
