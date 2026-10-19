@@ -3,6 +3,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { isMuted, setMuted, subscribe } from "./audio";
 import { useClickChimes } from "./useClickChimes";
 import SparkleTrail from "./SparkleTrail";
+import Counter from "./Counter";
 import { ArrowIcon } from "./lib";
 import { Hero } from "./components/Hero";
 import { Story } from "./components/Story";
@@ -137,6 +138,7 @@ function App() {
         </a>
 
         <span className="footer-note">A tiny reminder to keep dreaming.</span>
+        <Counter />
         <span className="footer-credit">MADE WITH ♡ AND A LITTLE MAGIC</span>
       </footer>
 
