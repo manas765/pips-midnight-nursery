@@ -78,7 +78,17 @@ const LAMPS: Lamp[] = [
   {
     id: "moon",
     name: "Moon Lantern",
-    art: () => <img src="/pip_dream_lantern.png" alt="" loading="lazy" />,
+    art: () => (
+  <img
+    src="/pip_dream_lantern.webp"
+    alt=""
+    loading="lazy"
+    onError={(event) => {
+      const image = event.currentTarget;
+      image.style.display = "none";
+    }}
+  />
+),
   },
   { id: "star", name: "Star Jar", art: (lit) => <StarJar lit={lit} /> },
   { id: "cloud", name: "Cloud Lamp", art: (lit) => <CloudLamp lit={lit} /> },

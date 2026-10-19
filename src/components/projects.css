@@ -453,3 +453,86 @@
     transform: none;
   }
 }
+
+/* Lullaby Lab: align the music box controls */
+.lullaby-lab {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.lullaby-instruction {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.lullaby-keys {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.lullaby-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 42px;
+  min-height: 48px;
+  padding: 7px 10px;
+  border: 1px solid #dfcce5;
+  border-radius: 10px;
+  background: #fff9f0;
+  color: #493653;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.lullaby-key:hover {
+  background: #f0e1f3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(74, 53, 80, 0.1);
+}
+
+.lullaby-key:focus-visible {
+  outline: 2px solid #9064a3;
+  outline-offset: 3px;
+}
+
+.lullaby-key small {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.lullaby-play {
+  display: block;
+  max-width: 100%;
+  margin: 10px 0 0;
+  white-space: normal;
+}
+
+.lullaby-status,
+.lullaby-muted {
+  margin: 8px 0 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 420px) {
+  .lullaby-keys {
+    gap: 6px;
+  }
+
+  .lullaby-key {
+    min-width: 38px;
+    padding: 7px 8px;
+  }
+}
