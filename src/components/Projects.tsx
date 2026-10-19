@@ -1,8 +1,7 @@
-import type { CSSProperties } from "react";
-import { ArrowIcon, handleTilt, resetTilt } from "../lib";
 
+import "./projects.css";
 
-export type Project = {
+export interface Project {
   number: string;
   category: string;
   title: string;
@@ -11,9 +10,9 @@ export type Project = {
   image: string;
   details: string;
   note: string;
-};
+}
 
-export const projects: Project[] = [
+  export const projects: Project[] = [
   {
     number: "01",
     category: "LULLABY LAB",
@@ -49,121 +48,58 @@ export const projects: Project[] = [
   },
 ];
 
-type ProjectsProps = {
+
+interface ProjectsProps {
   onSelect: (project: Project) => void;
-};
+}
 
 export function Projects({ onSelect }: ProjectsProps) {
   return (
-    <section className="work-section section-padding" id="work">
-      <div className="section-wrap">
-        <div className="section-label" data-reveal>
-          <span>02 / LITTLE THINGS</span>
-          <span>SMALL WORLDS, ENDLESS POSSIBILITIES</span>
-        </div>
+    <section className="work-section" id="work">
+      <div className="section-heading">
+        <p className="eyebrow">A LITTLE MAGIC AFTER DARK</p>
+        <h2>Things I made under the moonlight</h2>
+        <p>Every little project begins with a dream. Here are a few of mine.</p>
+      </div>
 
-        <div className="work-heading-grid" data-reveal>
-          <h2>
-            A shelf full
-            <br />
-            of <em>wonder.</em>
-          </h2>
-
-          <p className="section-intro">
-            Little ideas, dreamy places and stories waiting to be
-            discovered. Pick whichever one calls your name.
-          </p>
-        </div>
-
-        <div className="project-grid">
-          {projects.map((project, index) => (
-            <div
-              className="project-reveal"
-              data-reveal
-              key={project.number}
-              style={{
-                "--reveal-delay": `${index * 120}ms`,
-              } as CSSProperties}
+      <div className="projects-grid">
+        {projects.map((project) => (
+          <article className="project-card" key={project.number}>
+            <button
+              type="button"
+              className="project-card-button"
+              onClick={() => onSelect(project)}
+              aria-label={`Explore ${project.title}`}
             >
-              <button
-                className={`project-card project-card-${project.number.slice(-1)}`}
-                onClick={() => onSelect(project)}
-                onPointerMove={(event) => handleTilt(event, 8)}
-                onPointerLeave={resetTilt}
-              >
-                <span className="project-card-top">
-                  <span>NO. {project.number}</span>
-                  <span className="project-open">↗</span>
+              <div className="project-image-wrap">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="project-image"
+                  loading="lazy"
+                  onError={(event) => {
+                    const image = event.currentTarget;
+                    if (image.src.endsWith(".webp")) {
+                      image.src = project.image.replace(/\.webp$/, ".png");
+                    }
+                  }}
+                />
+                <span className="project-symbol" aria-hidden="true">
+                  {project.symbol}
                 </span>
+              </div>
 
-                <span className="project-image">
-                  <span className="image-orbit orbit-project" />
-
-                  <img
-                    className="project-art-image"
-                    src={project.image}
-                    alt={project.title}
-                    loading="lazy"
-                  />
-
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      right: "17%",
-                      top: "18%",
-                      color: "#b294c5",
-                      fontSize: "22px",
-                    }}
-                  >
-                    ✦
-                  </span>
-
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      left: "15%",
-                      bottom: "15%",
-                      color: "#c19ab8",
-                      fontSize: "18px",
-                    }}
-                  >
-                    ✧
-                  </span>
+              <div className="project-card-content">
+                <p className="project-category">{project.category}</p>
+                <h3>{project.title}</h3>
+                <p className="project-description">{project.description}</p>
+                <span className="project-link">
+                  Explore project <span aria-hidden="true">↗</span>
                 </span>
-
-                <span className="project-copy">
-                  <span className="project-category">{project.category}</span>
-
-                  <span
-                    style={{
-                      fontFamily: "var(--display)",
-                      fontSize: "25px",
-                      fontWeight: 500,
-                      letterSpacing: "-.035em",
-                      margin: "12px 0 8px",
-                    }}
-                  >
-                    {project.title}
-                  </span>
-
-                  <span className="project-description-text">
-                    {project.description}
-                  </span>
-
-                  <span className="project-read-more">
-                    Take a closer look <ArrowIcon />
-                  </span>
-                </span>
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <p className="work-caption" data-reveal>
-          <span>✦</span> Made for curious minds and wonderfully wandering hearts <span>✦</span>
-        </p>
+              </div>
+            </button>
+          </article>
+        ))}
       </div>
     </section>
   );

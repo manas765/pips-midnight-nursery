@@ -1,4 +1,3 @@
-
 import {
   useEffect,
   useState,
@@ -6,7 +5,8 @@ import {
   type CSSProperties,
 } from "react";
 
-import { isMuted, setMuted, subscribe, tone } from "./audio";
+import { isMuted, setMuted, subscribe } from "./audio";
+import { GrowthChart } from "./components/GrowthChart";
 import { useClickChimes } from "./useClickChimes";
 import SparkleTrail from "./SparkleTrail";
 import { ArrowIcon, handleTilt, resetTilt } from "./lib";
@@ -109,10 +109,9 @@ function App() {
         <a
           href="#home"
           className="brand"
-          aria-label="Pip's Midnight Nursery home"
           onClick={closeMobileMenu}
         >
-          <span className="brand-mark">
+          <span className="brand-mark" aria-hidden="true">
             <span className="brand-moon">☾</span>
             <span className="brand-dot">✦</span>
           </span>
@@ -219,7 +218,7 @@ function App() {
 
             <div className="hero-art-card">
               <img
-                src="/pip_dream_lantern.png"
+                src="/pip_dream_lantern.webp"
                 alt="Pip's magical dream lantern"
                 className="hero-art-image"
               />
@@ -279,39 +278,12 @@ function App() {
         </div>
 
         <Story />
-
-        <section className="work-section section-padding" id="work">
-          <div className="section-wrap">
-            <div className="section-label" data-reveal>
-              <span>02 / LITTLE THINGS</span>
-              <span>SMALL WORLDS, ENDLESS POSSIBILITIES</span>
-            </div>
-
-            <div className="work-heading-grid" data-reveal>
-              <h2>
-                A shelf full
-                <br />
-                of <em>wonder.</em>
-              </h2>
-              <p className="section-intro">
-                Little ideas, dreamy places and stories waiting to be
-                discovered. Pick whichever one calls your name.
-              </p>
-            </div>
-
-            <Projects onSelect={setSelectedProject} />
-
-            <p className="work-caption" data-reveal>
-              <span>✦</span> Made for curious minds and wonderfully wandering hearts <span>✦</span>
-            </p>
-          </div>
-        </section>
-
+        <Projects onSelect={setSelectedProject} />
         <RouteMap
           moon={<MapMoon />}
           onNext={() => scrollToSection("about")}
         />
-
+        <GrowthChart />
         <About />
         
         <section className="guestbook-section section-wrap" id="guestbook">
