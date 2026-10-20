@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { ArrowIcon } from "../lib";
 import { useModalA11y } from "../useModalA11y";
 import type { Project } from "./Projects";
@@ -16,12 +16,20 @@ function useEscape(onClose: () => void) {
 type ProjectModalProps = {
   project: Project;
   onClose: () => void;
+  extra?: ReactNode;
+  glow?: number;
 };
 
-export function ProjectModal({ project, onClose }: ProjectModalProps) {
-  useModalA11y(onClose);
+export function ProjectModal({ project, onClose, extra, glow = 0 }: ProjectModalProps) {
+  useEscape(onClose);
+
   return (
-    <div className="modal-backdrop" onClick={onClose} role="presentation">
+    <div 
+      className={`modal-backdrop ${project.title === "Nightlight Collection" ? "lights-backdrop" : ""}`}
+      style={{ "--glow": glow } as CSSProperties}
+      onClick={onClose}
+      role="presentation"
+    >
       <section
         className="project-modal"
         role="dialog"
@@ -56,6 +64,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           <h2 id="project-modal-title">{project.title}</h2>
           <p>{project.details}</p>
+          {extra}
 
           <div className="modal-note">
             <span>✧</span>
