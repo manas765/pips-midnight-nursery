@@ -4,7 +4,7 @@ A cozy, storybook-style portfolio hosted by **Pip**, the canon skull baby and Ju
 
 Built for **haX.baby, Track 1 (Pip's Midnight Nursery)**.
 
-**Live site:** https://pips-midnight-nursery-vibr.vercel.app/
+**Live site:** [https://pips-midnight-nursery-vibr.vercel.app/](https://pips-midnight-nursery-five.vercel.app/)
 **Repo:** https://github.com/manas765/pips-midnight-nursery
 
 ## Meet Pip
