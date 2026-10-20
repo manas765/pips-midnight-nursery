@@ -200,6 +200,14 @@ function App() {
               <Nightlights soundEnabled={!muted} onGlow={setGlow} />
             ) : null
           }
+          onAction={
+            selectedProject.title === "Dream Delivery Routes"
+              ? () => {
+                setSelectedProject(null);
+                window.setTimeout(() => scrollToSection("route"), 60);
+              }
+          : undefined
+          }
         />
       )}
 
