@@ -1176,17 +1176,19 @@ button {
 }
 
 .guestbook-stars {
+  letter-spacing: 0.16em;
   animation: pip-stars-breathe 5s ease-in-out infinite;
 }
 
 @keyframes pip-stars-breathe {
+  /* transform and opacity only, so it never triggers layout */
   0%, 100% {
     opacity: 0.65;
-    letter-spacing: 0.12em;
+    transform: scaleX(0.94);
   }
   50% {
     opacity: 1;
-    letter-spacing: 0.2em;
+    transform: scaleX(1.06);
   }
 }
 

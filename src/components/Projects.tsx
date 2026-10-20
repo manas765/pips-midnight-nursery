@@ -69,7 +69,6 @@ export function Projects({ onSelect }: ProjectsProps) {
               type="button"
               className="project-card-button"
               onClick={() => onSelect(project)}
-              aria-label={`Explore ${project.title}`}
             >
               <div className="project-image-wrap">
                 <img
