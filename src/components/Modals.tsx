@@ -18,9 +18,11 @@ type ProjectModalProps = {
   onClose: () => void;
   extra?: ReactNode;
   glow?: number;
+  onAction?: () => void;
+
 };
 
-export function ProjectModal({ project, onClose, extra, glow = 0 }: ProjectModalProps) {
+export function ProjectModal({ project, onClose, extra, glow = 0, onAction }: ProjectModalProps) {
   useEscape(onClose);
 
   return (
@@ -71,8 +73,9 @@ export function ProjectModal({ project, onClose, extra, glow = 0 }: ProjectModal
             {project.note}
           </div>
 
-          <button className="button button-primary" onClick={onClose}>
-            Back to the little things <ArrowIcon />
+          <button className="button button-primary" onClick={onAction ?? onClose}>
+            {project.title === "Dream Delivery Routes" ? "Follow my route" : "Back to the little things"}{" "}
+            <ArrowIcon />
           </button>
         </div>
       </section>
