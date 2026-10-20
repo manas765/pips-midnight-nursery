@@ -135,7 +135,7 @@
   color: #e7d6ed;
 }
 
-.gb-form input:not(.gb-trap),
+.gb-form input,
 .gb-form textarea {
   width: 100%;
   padding: 12px;
@@ -165,13 +165,6 @@
   color: #ffc2d6;
 }
 
-.gb-trap {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
 
 /* Accessibility: secret star tap target must be at least 24px */
 .secret-star {

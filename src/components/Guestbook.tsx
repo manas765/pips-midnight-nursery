@@ -177,7 +177,6 @@ type GuestbookModalProps = {
 export function GuestbookModal({ onClose }: GuestbookModalProps) {
   const [guestName, setGuestName] = useState("");
   const [guestMessage, setGuestMessage] = useState("");
-  const [trap, setTrap] = useState("");
   const [guestSubmitted, setGuestSubmitted] = useState(false);
   const [savedOnline, setSavedOnline] = useState(true);
   const [error, setError] = useState("");
@@ -197,7 +196,6 @@ export function GuestbookModal({ onClose }: GuestbookModalProps) {
     const message = tidy(guestMessage).slice(0, MAX_MESSAGE);
     const name = tidy(guestName).slice(0, MAX_NAME);
 
-    if (trap) return; // honeypot, bots fill hidden fields
     if (!message) {
       setError("Please write a little note first.");
       return;
@@ -220,6 +218,7 @@ export function GuestbookModal({ onClose }: GuestbookModalProps) {
         .from("guestbook")
         .insert({ name: name || null, message });
       if (insertError) {
+        console.error("Guestbook insert failed:", insertError);
         setBusy(false);
         setError("Pip dropped your note. Please try again in a moment.");
         return;
@@ -313,16 +312,6 @@ export function GuestbookModal({ onClose }: GuestbookModalProps) {
               <span className="gb-count" aria-live="polite">
                 {guestMessage.length}/{MAX_MESSAGE}
               </span>
-
-              <input
-                className="gb-trap"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                value={trap}
-                onChange={(event) => setTrap(event.target.value)}
-                name="website"
-              />
 
               {error && (
                 <p className="gb-error" role="alert">
